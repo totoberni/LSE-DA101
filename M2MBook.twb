@@ -1,0 +1,1193 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20243.25.0114.1153                               -->
+<workbook original-version='18.1' source-build='2024.3.3 (20243.25.0114.1153)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AnimationOnByDefault />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelSharedDimensions.true...ObjectModelSharedDimensions />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='marketing_data.csv+ (Multiple Connections)' inline='true' name='federated.1fce0tw0e9c63816uownu1s7l86n' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='marketing_data' name='textscan.1w92li900s9dev11xphxc0yq4h4x'>
+            <connection class='textclean' cleaning='yes' compat='no' csvFile='C:/Users/totob/OneDrive/Documenti/CS/LSE/Coursework/C1 Analytics for Business/MX Assignment 1/LSE_DA101_Assignment_data/marketing_data.csv' dataRefreshTime='' directory='C:/Users/totob/OneDrive/Documenti/CS/LSE/Coursework/C1 Analytics for Business/MX Assignment 1/LSE_DA101_Assignment_data' filename='C:/Users/totob/AppData/Local/Temp/TableauTemp/0fmbq051s9q4ov11luozx1uth5us/marketing_data.csv.xlsx' interpretationMode='8' password='' server='' validate='no' />
+          </named-connection>
+          <named-connection caption='ad_data' name='textscan.1jx04240jz8joa13nchm318x8sqq'>
+            <connection class='textclean' cleaning='yes' compat='no' csvFile='C:/Users/totob/OneDrive/Documenti/CS/LSE/Coursework/C1 Analytics for Business/MX Assignment 1/LSE_DA101_Assignment_data/ad_data.csv' dataRefreshTime='' directory='C:/Users/totob/OneDrive/Documenti/CS/LSE/Coursework/C1 Analytics for Business/MX Assignment 1/LSE_DA101_Assignment_data' filename='C:/Users/totob/AppData/Local/Temp/TableauTemp/0idfyjr196ht9k114747w07og2a0/ad_data.csv.xlsx' interpretationMode='8' password='' server='' validate='no' />
+          </named-connection>
+        </named-connections>
+        <relation type='collection'>
+          <_.fcp.ObjectModelSharedDimensions.true...relation connection='textscan.1w92li900s9dev11xphxc0yq4h4x' name='marketing_data.csv' table='[marketing_data#csv$]' type='table'>
+            <columns character-set='UTF-8' gridOrigin='A1:W2217:no:A1:W2217:1' header='yes' locale='en_GB' separator=','>
+              <column datatype='integer' name='ID' ordinal='0' />
+              <column datatype='integer' name='Year_Birth' ordinal='1' />
+              <column datatype='string' name='Education' ordinal='2' />
+              <column datatype='string' name='Marital_Status' ordinal='3' />
+              <column datatype='integer' name='Income' ordinal='4' />
+              <column datatype='integer' name='Kidhome' ordinal='5' />
+              <column datatype='integer' name='Teenhome' ordinal='6' />
+              <column datatype='date' name='Dt_Customer' ordinal='7' />
+              <column datatype='integer' name='Recency' ordinal='8' />
+              <column datatype='integer' name='AmtLiq' ordinal='9' />
+              <column datatype='integer' name='AmtVege' ordinal='10' />
+              <column datatype='integer' name='AmtNonVeg' ordinal='11' />
+              <column datatype='integer' name='AmtPes' ordinal='12' />
+              <column datatype='integer' name='AmtChocolates' ordinal='13' />
+              <column datatype='integer' name='AmtComm' ordinal='14' />
+              <column datatype='integer' name='NumDeals' ordinal='15' />
+              <column datatype='integer' name='NumWebBuy' ordinal='16' />
+              <column datatype='integer' name='NumWalkinPur' ordinal='17' />
+              <column datatype='integer' name='NumVisits' ordinal='18' />
+              <column datatype='integer' name='Response' ordinal='19' />
+              <column datatype='integer' name='Complain' ordinal='20' />
+              <column datatype='string' name='Country' ordinal='21' />
+              <column datatype='integer' name='Count_success' ordinal='22' />
+            </columns>
+          </_.fcp.ObjectModelSharedDimensions.true...relation>
+          <relation connection='textscan.1w92li900s9dev11xphxc0yq4h4x' name='marketing_data.csv1' table='[marketing_data#csv$]' type='table'>
+            <columns character-set='UTF-8' gridOrigin='A1:W2217:no:A1:W2217:1' header='yes' locale='en_GB' separator=','>
+              <column datatype='integer' name='ID' ordinal='0' />
+              <column datatype='integer' name='Year_Birth' ordinal='1' />
+              <column datatype='string' name='Education' ordinal='2' />
+              <column datatype='string' name='Marital_Status' ordinal='3' />
+              <column datatype='integer' name='Income' ordinal='4' />
+              <column datatype='integer' name='Kidhome' ordinal='5' />
+              <column datatype='integer' name='Teenhome' ordinal='6' />
+              <column datatype='date' name='Dt_Customer' ordinal='7' />
+              <column datatype='integer' name='Recency' ordinal='8' />
+              <column datatype='integer' name='AmtLiq' ordinal='9' />
+              <column datatype='integer' name='AmtVege' ordinal='10' />
+              <column datatype='integer' name='AmtNonVeg' ordinal='11' />
+              <column datatype='integer' name='AmtPes' ordinal='12' />
+              <column datatype='integer' name='AmtChocolates' ordinal='13' />
+              <column datatype='integer' name='AmtComm' ordinal='14' />
+              <column datatype='integer' name='NumDeals' ordinal='15' />
+              <column datatype='integer' name='NumWebBuy' ordinal='16' />
+              <column datatype='integer' name='NumWalkinPur' ordinal='17' />
+              <column datatype='integer' name='NumVisits' ordinal='18' />
+              <column datatype='integer' name='Response' ordinal='19' />
+              <column datatype='integer' name='Complain' ordinal='20' />
+              <column datatype='string' name='Country' ordinal='21' />
+              <column datatype='integer' name='Count_success' ordinal='22' />
+            </columns>
+          </relation>
+          <relation connection='textscan.1jx04240jz8joa13nchm318x8sqq' name='ad_data.csv' table='[ad_data#csv$]' type='table'>
+            <columns gridOrigin='A1:F2218:no:A1:F2218:2'>
+              <column datatype='integer' name='ID ID' ordinal='0' />
+              <column datatype='integer' name='Bulkmail_ad Bulkmail_ad' ordinal='1' />
+              <column datatype='integer' name='Twitter_ad Twitter_ad' ordinal='2' />
+              <column datatype='integer' name='Instagram_ad Instagram_ad' ordinal='3' />
+              <column datatype='integer' name='Facebook_ad Facebook_ad' ordinal='4' />
+              <column datatype='integer' name='Brochure_ad Brochure_ad' ordinal='5' />
+            </columns>
+          </relation>
+        </relation>
+        <cols>
+          <map key='[AmtChocolates (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtChocolates]' />
+          <map key='[AmtChocolates]' value='[marketing_data.csv].[AmtChocolates]' />
+          <map key='[AmtComm (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtComm]' />
+          <map key='[AmtComm]' value='[marketing_data.csv].[AmtComm]' />
+          <map key='[AmtLiq (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtLiq]' />
+          <map key='[AmtLiq]' value='[marketing_data.csv].[AmtLiq]' />
+          <map key='[AmtNonVeg (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtNonVeg]' />
+          <map key='[AmtNonVeg]' value='[marketing_data.csv].[AmtNonVeg]' />
+          <map key='[AmtPes (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtPes]' />
+          <map key='[AmtPes]' value='[marketing_data.csv].[AmtPes]' />
+          <map key='[AmtVege (marketing_data.csv1)]' value='[marketing_data.csv1].[AmtVege]' />
+          <map key='[AmtVege]' value='[marketing_data.csv].[AmtVege]' />
+          <map key='[Brochure_ad Brochure_ad]' value='[ad_data.csv].[Brochure_ad Brochure_ad]' />
+          <map key='[Bulkmail_ad Bulkmail_ad]' value='[ad_data.csv].[Bulkmail_ad Bulkmail_ad]' />
+          <map key='[Complain (marketing_data.csv1)]' value='[marketing_data.csv1].[Complain]' />
+          <map key='[Complain]' value='[marketing_data.csv].[Complain]' />
+          <map key='[Count_success (marketing_data.csv1)]' value='[marketing_data.csv1].[Count_success]' />
+          <map key='[Count_success]' value='[marketing_data.csv].[Count_success]' />
+          <map key='[Country (marketing_data.csv1)]' value='[marketing_data.csv1].[Country]' />
+          <map key='[Country]' value='[marketing_data.csv].[Country]' />
+          <map key='[Dt_Customer (marketing_data.csv1)]' value='[marketing_data.csv1].[Dt_Customer]' />
+          <map key='[Dt_Customer]' value='[marketing_data.csv].[Dt_Customer]' />
+          <map key='[Education (marketing_data.csv1)]' value='[marketing_data.csv1].[Education]' />
+          <map key='[Education]' value='[marketing_data.csv].[Education]' />
+          <map key='[Facebook_ad Facebook_ad]' value='[ad_data.csv].[Facebook_ad Facebook_ad]' />
+          <map key='[ID (marketing_data.csv1)]' value='[marketing_data.csv1].[ID]' />
+          <map key='[ID ID]' value='[ad_data.csv].[ID ID]' />
+          <map key='[ID]' value='[marketing_data.csv].[ID]' />
+          <map key='[Income (marketing_data.csv1)]' value='[marketing_data.csv1].[Income]' />
+          <map key='[Income]' value='[marketing_data.csv].[Income]' />
+          <map key='[Instagram_ad Instagram_ad]' value='[ad_data.csv].[Instagram_ad Instagram_ad]' />
+          <map key='[Kidhome (marketing_data.csv1)]' value='[marketing_data.csv1].[Kidhome]' />
+          <map key='[Kidhome]' value='[marketing_data.csv].[Kidhome]' />
+          <map key='[Marital_Status (marketing_data.csv1)]' value='[marketing_data.csv1].[Marital_Status]' />
+          <map key='[Marital_Status]' value='[marketing_data.csv].[Marital_Status]' />
+          <map key='[NumDeals (marketing_data.csv1)]' value='[marketing_data.csv1].[NumDeals]' />
+          <map key='[NumDeals]' value='[marketing_data.csv].[NumDeals]' />
+          <map key='[NumVisits (marketing_data.csv1)]' value='[marketing_data.csv1].[NumVisits]' />
+          <map key='[NumVisits]' value='[marketing_data.csv].[NumVisits]' />
+          <map key='[NumWalkinPur (marketing_data.csv1)]' value='[marketing_data.csv1].[NumWalkinPur]' />
+          <map key='[NumWalkinPur]' value='[marketing_data.csv].[NumWalkinPur]' />
+          <map key='[NumWebBuy (marketing_data.csv1)]' value='[marketing_data.csv1].[NumWebBuy]' />
+          <map key='[NumWebBuy]' value='[marketing_data.csv].[NumWebBuy]' />
+          <map key='[Recency (marketing_data.csv1)]' value='[marketing_data.csv1].[Recency]' />
+          <map key='[Recency]' value='[marketing_data.csv].[Recency]' />
+          <map key='[Response (marketing_data.csv1)]' value='[marketing_data.csv1].[Response]' />
+          <map key='[Response]' value='[marketing_data.csv].[Response]' />
+          <map key='[Teenhome (marketing_data.csv1)]' value='[marketing_data.csv1].[Teenhome]' />
+          <map key='[Teenhome]' value='[marketing_data.csv].[Teenhome]' />
+          <map key='[Twitter_ad Twitter_ad]' value='[ad_data.csv].[Twitter_ad Twitter_ad]' />
+          <map key='[Year_Birth (marketing_data.csv1)]' value='[marketing_data.csv1].[Year_Birth]' />
+          <map key='[Year_Birth]' value='[marketing_data.csv].[Year_Birth]' />
+        </cols>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:W2217:no:A1:W2217:1&quot;</attribute>
+              <attribute datatype='integer' name='lost'>0</attribute>
+              <attribute datatype='integer' name='outcome'>1</attribute>
+              <attribute datatype='integer' name='processed'>44320</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:W2217:no:A1:W2217:1&quot;</attribute>
+              <attribute datatype='integer' name='lost'>0</attribute>
+              <attribute datatype='integer' name='outcome'>1</attribute>
+              <attribute datatype='integer' name='processed'>44320</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:F2218:no:A1:F2218:2&quot;</attribute>
+              <attribute datatype='integer' name='lost'>0</attribute>
+              <attribute datatype='integer' name='outcome'>1</attribute>
+              <attribute datatype='integer' name='processed'>13296</attribute>
+            </attributes>
+          </metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[ID]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>ID</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Year_Birth</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Year_Birth]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Year_Birth</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Education</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Education]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Education</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Marital_Status</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Marital_Status]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Marital_Status</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Income</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Income]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Income</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Kidhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Kidhome]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Kidhome</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Teenhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Teenhome]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Teenhome</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Dt_Customer</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Dt_Customer]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Dt_Customer</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Recency</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Recency]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Recency</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtLiq</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtLiq]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtLiq</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtVege</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtVege]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtVege</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtNonVeg</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtNonVeg]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtNonVeg</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtPes</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtPes]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtPes</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtChocolates</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtChocolates]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtChocolates</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>AmtComm</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtComm]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>AmtComm</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>NumDeals</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumDeals]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>NumDeals</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>NumWebBuy</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWebBuy]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>NumWebBuy</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>NumWalkinPur</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWalkinPur]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>NumWalkinPur</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>NumVisits</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumVisits]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>NumVisits</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Response</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Response]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Response</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Complain</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Complain]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Complain</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Country</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Country]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Country</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <_.fcp.ObjectModelSharedDimensions.true...metadata-record class='column'>
+            <remote-name>Count_success</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Count_success]</local-name>
+            <parent-name>[marketing_data.csv]</parent-name>
+            <remote-alias>Count_success</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]</object-id>
+          </_.fcp.ObjectModelSharedDimensions.true...metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[ID (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>ID</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Year_Birth</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Year_Birth (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Year_Birth</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Education</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Education (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Education</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Marital_Status</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Marital_Status (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Marital_Status</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Income</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Income (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Income</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Kidhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Kidhome (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Kidhome</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Teenhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Teenhome (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Teenhome</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Dt_Customer</remote-name>
+            <remote-type>7</remote-type>
+            <local-name>[Dt_Customer (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Dt_Customer</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;DATE&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Recency</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Recency (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Recency</remote-alias>
+            <ordinal>31</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtLiq</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtLiq (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtLiq</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtVege</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtVege (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtVege</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtNonVeg</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtNonVeg (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtNonVeg</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtPes</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtPes (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtPes</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtChocolates</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtChocolates (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtChocolates</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AmtComm</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AmtComm (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>AmtComm</remote-alias>
+            <ordinal>37</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumDeals</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumDeals (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>NumDeals</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumWebBuy</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWebBuy (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>NumWebBuy</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumWalkinPur</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWalkinPur (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>NumWalkinPur</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumVisits</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumVisits (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>NumVisits</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Response</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Response (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Response</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Complain</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Complain (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Complain</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Country</remote-name>
+            <remote-type>130</remote-type>
+            <local-name>[Country (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Country</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <collation flag='1' name='LEN_RGB_S2' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;WSTR&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Count_success</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Count_success (marketing_data.csv1)]</local-name>
+            <parent-name>[marketing_data.csv1]</parent-name>
+            <remote-alias>Count_success</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ID ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[ID ID]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>ID ID</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Bulkmail_ad Bulkmail_ad</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Bulkmail_ad Bulkmail_ad]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>Bulkmail_ad Bulkmail_ad</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Twitter_ad Twitter_ad</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Twitter_ad Twitter_ad]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>Twitter_ad Twitter_ad</remote-alias>
+            <ordinal>48</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Instagram_ad Instagram_ad</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Instagram_ad Instagram_ad]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>Instagram_ad Instagram_ad</remote-alias>
+            <ordinal>49</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Facebook_ad Facebook_ad</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Facebook_ad Facebook_ad]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>Facebook_ad Facebook_ad</remote-alias>
+            <ordinal>50</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Brochure_ad Brochure_ad</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Brochure_ad Brochure_ad]</local-name>
+            <parent-name>[ad_data.csv]</parent-name>
+            <remote-alias>Brochure_ad Brochure_ad</remote-alias>
+            <ordinal>51</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;I8&quot;</attribute>
+            </attributes>
+            <object-id>[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='AmtChocolates (marketing data.csv1)' datatype='integer' name='[AmtChocolates (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Chocolates' datatype='integer' name='[AmtChocolates]' role='measure' type='quantitative' />
+      <column caption='AmtComm (marketing data.csv1)' datatype='integer' name='[AmtComm (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Comm' datatype='integer' name='[AmtComm]' role='measure' type='quantitative' />
+      <column caption='AmtLiq (marketing data.csv1)' datatype='integer' name='[AmtLiq (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Liq' datatype='integer' name='[AmtLiq]' role='measure' type='quantitative' />
+      <column caption='AmtNonVeg (marketing data.csv1)' datatype='integer' name='[AmtNonVeg (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Non Veg' datatype='integer' name='[AmtNonVeg]' role='measure' type='quantitative' />
+      <column caption='AmtPes (marketing data.csv1)' datatype='integer' name='[AmtPes (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Pes' datatype='integer' name='[AmtPes]' role='measure' type='quantitative' />
+      <column caption='AmtVege (marketing data.csv1)' datatype='integer' name='[AmtVege (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Amt Vege' datatype='integer' name='[AmtVege]' role='measure' type='quantitative' />
+      <column caption='Brochure ad Brochure ad' datatype='integer' name='[Brochure_ad Brochure_ad]' role='measure' type='quantitative' />
+      <column caption='Bulkmail ad Bulkmail ad' datatype='integer' name='[Bulkmail_ad Bulkmail_ad]' role='measure' type='quantitative' />
+      <column caption='Complain (marketing data.csv1)' datatype='integer' name='[Complain (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Count success (marketing data.csv1)' datatype='integer' name='[Count_success (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Count success' datatype='integer' name='[Count_success]' role='measure' type='quantitative' />
+      <column caption='Country (marketing data.csv1)' datatype='string' name='[Country (marketing_data.csv1)]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+      <column datatype='string' name='[Country]' role='dimension' semantic-role='[Country].[ISO3166_2]' type='nominal' />
+      <column caption='Dt Customer (marketing data.csv1)' datatype='date' name='[Dt_Customer (marketing_data.csv1)]' role='dimension' type='ordinal' />
+      <column caption='Dt Customer' datatype='date' name='[Dt_Customer]' role='dimension' type='ordinal' />
+      <column caption='Education (marketing data.csv1)' datatype='string' name='[Education (marketing_data.csv1)]' role='dimension' type='nominal' />
+      <column caption='Facebook ad Facebook ad' datatype='integer' name='[Facebook_ad Facebook_ad]' role='measure' type='quantitative' />
+      <column caption='ID (marketing data.csv1)' datatype='integer' name='[ID (marketing_data.csv1)]' role='dimension' type='ordinal' />
+      <column caption='Id Id' datatype='integer' name='[ID ID]' role='dimension' type='ordinal' />
+      <column datatype='integer' name='[ID]' role='dimension' type='ordinal' />
+      <column caption='Income (marketing data.csv1)' datatype='integer' name='[Income (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Instagram ad Instagram ad' datatype='integer' name='[Instagram_ad Instagram_ad]' role='measure' type='quantitative' />
+      <column caption='Kidhome (marketing data.csv1)' datatype='integer' name='[Kidhome (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Marital Status (marketing data.csv1)' datatype='string' name='[Marital_Status (marketing_data.csv1)]' role='dimension' type='nominal' />
+      <column caption='Marital Status' datatype='string' name='[Marital_Status]' role='dimension' type='nominal' />
+      <column caption='NumDeals (marketing data.csv1)' datatype='integer' name='[NumDeals (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Num Deals' datatype='integer' name='[NumDeals]' role='measure' type='quantitative' />
+      <column caption='NumVisits (marketing data.csv1)' datatype='integer' name='[NumVisits (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Num Visits' datatype='integer' name='[NumVisits]' role='measure' type='quantitative' />
+      <column caption='NumWalkinPur (marketing data.csv1)' datatype='integer' name='[NumWalkinPur (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Num Walkin Pur' datatype='integer' name='[NumWalkinPur]' role='measure' type='quantitative' />
+      <column caption='NumWebBuy (marketing data.csv1)' datatype='integer' name='[NumWebBuy (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Num Web Buy' datatype='integer' name='[NumWebBuy]' role='measure' type='quantitative' />
+      <column caption='Recency (marketing data.csv1)' datatype='integer' name='[Recency (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Response (marketing data.csv1)' datatype='integer' name='[Response (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Teenhome (marketing data.csv1)' datatype='integer' name='[Teenhome (marketing_data.csv1)]' role='measure' type='quantitative' />
+      <column caption='Twitter ad Twitter ad' datatype='integer' name='[Twitter_ad Twitter_ad]' role='measure' type='quantitative' />
+      <column caption='Year Birth (marketing data.csv1)' datatype='integer' name='[Year_Birth (marketing_data.csv1)]' role='dimension' type='quantitative' />
+      <column caption='Year Birth' datatype='integer' name='[Year_Birth]' role='dimension' type='quantitative' />
+      <column caption='ad_data.csv' datatype='table' name='[__tableau_internal_object_id__].[ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6]' role='measure' type='quantitative' />
+      <column caption='marketing_data.csv' datatype='table' name='[__tableau_internal_object_id__].[marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616]' role='measure' type='quantitative' />
+      <column caption='marketing_data.csv1' datatype='table' name='[__tableau_internal_object_id__].[marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United Kingdom&quot;' />
+      </semantic-values>
+      <date-options start-of-week='monday' />
+      <object-graph>
+        <objects>
+          <object caption='ad_data.csv' id='ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6'>
+            <properties context=''>
+              <relation connection='textscan.1jx04240jz8joa13nchm318x8sqq' name='ad_data.csv' table='[ad_data#csv$]' type='table'>
+                <columns gridOrigin='A1:F2218:no:A1:F2218:2'>
+                  <column datatype='integer' name='ID ID' ordinal='0' />
+                  <column datatype='integer' name='Bulkmail_ad Bulkmail_ad' ordinal='1' />
+                  <column datatype='integer' name='Twitter_ad Twitter_ad' ordinal='2' />
+                  <column datatype='integer' name='Instagram_ad Instagram_ad' ordinal='3' />
+                  <column datatype='integer' name='Facebook_ad Facebook_ad' ordinal='4' />
+                  <column datatype='integer' name='Brochure_ad Brochure_ad' ordinal='5' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+          <_.fcp.ObjectModelSharedDimensions.true...object caption='marketing_data.csv' id='marketing_data.csv_CE0E3FC4AAE94438AAE886C8BF1A7616'>
+            <properties context=''>
+              <relation connection='textscan.1w92li900s9dev11xphxc0yq4h4x' name='marketing_data.csv' table='[marketing_data#csv$]' type='table'>
+                <columns character-set='UTF-8' gridOrigin='A1:W2217:no:A1:W2217:1' header='yes' locale='en_GB' separator=','>
+                  <column datatype='integer' name='ID' ordinal='0' />
+                  <column datatype='integer' name='Year_Birth' ordinal='1' />
+                  <column datatype='string' name='Education' ordinal='2' />
+                  <column datatype='string' name='Marital_Status' ordinal='3' />
+                  <column datatype='integer' name='Income' ordinal='4' />
+                  <column datatype='integer' name='Kidhome' ordinal='5' />
+                  <column datatype='integer' name='Teenhome' ordinal='6' />
+                  <column datatype='date' name='Dt_Customer' ordinal='7' />
+                  <column datatype='integer' name='Recency' ordinal='8' />
+                  <column datatype='integer' name='AmtLiq' ordinal='9' />
+                  <column datatype='integer' name='AmtVege' ordinal='10' />
+                  <column datatype='integer' name='AmtNonVeg' ordinal='11' />
+                  <column datatype='integer' name='AmtPes' ordinal='12' />
+                  <column datatype='integer' name='AmtChocolates' ordinal='13' />
+                  <column datatype='integer' name='AmtComm' ordinal='14' />
+                  <column datatype='integer' name='NumDeals' ordinal='15' />
+                  <column datatype='integer' name='NumWebBuy' ordinal='16' />
+                  <column datatype='integer' name='NumWalkinPur' ordinal='17' />
+                  <column datatype='integer' name='NumVisits' ordinal='18' />
+                  <column datatype='integer' name='Response' ordinal='19' />
+                  <column datatype='integer' name='Complain' ordinal='20' />
+                  <column datatype='string' name='Country' ordinal='21' />
+                  <column datatype='integer' name='Count_success' ordinal='22' />
+                </columns>
+              </relation>
+            </properties>
+          </_.fcp.ObjectModelSharedDimensions.true...object>
+          <object caption='marketing_data.csv1' id='marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1'>
+            <properties context=''>
+              <relation connection='textscan.1w92li900s9dev11xphxc0yq4h4x' name='marketing_data.csv1' table='[marketing_data#csv$]' type='table'>
+                <columns character-set='UTF-8' gridOrigin='A1:W2217:no:A1:W2217:1' header='yes' locale='en_GB' separator=','>
+                  <column datatype='integer' name='ID' ordinal='0' />
+                  <column datatype='integer' name='Year_Birth' ordinal='1' />
+                  <column datatype='string' name='Education' ordinal='2' />
+                  <column datatype='string' name='Marital_Status' ordinal='3' />
+                  <column datatype='integer' name='Income' ordinal='4' />
+                  <column datatype='integer' name='Kidhome' ordinal='5' />
+                  <column datatype='integer' name='Teenhome' ordinal='6' />
+                  <column datatype='date' name='Dt_Customer' ordinal='7' />
+                  <column datatype='integer' name='Recency' ordinal='8' />
+                  <column datatype='integer' name='AmtLiq' ordinal='9' />
+                  <column datatype='integer' name='AmtVege' ordinal='10' />
+                  <column datatype='integer' name='AmtNonVeg' ordinal='11' />
+                  <column datatype='integer' name='AmtPes' ordinal='12' />
+                  <column datatype='integer' name='AmtChocolates' ordinal='13' />
+                  <column datatype='integer' name='AmtComm' ordinal='14' />
+                  <column datatype='integer' name='NumDeals' ordinal='15' />
+                  <column datatype='integer' name='NumWebBuy' ordinal='16' />
+                  <column datatype='integer' name='NumWalkinPur' ordinal='17' />
+                  <column datatype='integer' name='NumVisits' ordinal='18' />
+                  <column datatype='integer' name='Response' ordinal='19' />
+                  <column datatype='integer' name='Complain' ordinal='20' />
+                  <column datatype='string' name='Country' ordinal='21' />
+                  <column datatype='integer' name='Count_success' ordinal='22' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+        <relationships>
+          <relationship>
+            <expression op='='>
+              <expression op='[ID (marketing_data.csv1)]' />
+              <expression op='[ID ID]' />
+            </expression>
+            <first-end-point guaranteed-value='true' object-id='marketing_data.csv_D480821F1B9842DB9AAB8BA5AF7E14F1' unique-key='true' />
+            <second-end-point guaranteed-value='true' object-id='ad_data.csv_8D3F92FA33544787B114C5B28E9D92D6' unique-key='true' />
+          </relationship>
+        </relationships>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{1CE8C4B2-368D-4D13-ADDB-E82DEA96D007}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='30'>
+    <window class='worksheet' maximized='true' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{99CF7869-6F8B-4867-BFDC-85080965F2AA}' />
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Sheet 1' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
+      AAACFUlEQVR4nO3TMQEAIAzAMMC/5yFjRxMFfXpnZg5Eve0A2GQA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQD
+      kGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBp
+      BiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA
+      0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDN
+      AKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxA
+      mgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKR9Y+0F
+      fBUOM1sAAAAASUVORK5CYII=
+    </thumbnail>
+  </thumbnails>
+</workbook>
