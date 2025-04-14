@@ -1,18 +1,27 @@
--- Drop the view if it exists before recreating it
+-- ========================================================================
+-- CUSTOMER DEMOGRAPHICS SQL SCRIPT (REFACTORED)
+-- ========================================================================
+-- This script creates views for analyzing customer demographics by country
+-- with support for both wide format (original) and long format (for Tableau)
+-- Uses Common Table Expressions (CTEs) instead of temporary tables
+-- ========================================================================
+
+-- Drop existing views to ensure clean recreation
+DROP VIEW IF EXISTS deprecated_demogs_by_country CASCADE;
 DROP VIEW IF EXISTS demogs_by_country CASCADE;
 
--- Create an enhanced view for demographic analysis by country
-CREATE OR REPLACE VIEW demogs_by_country AS
-WITH 
--- Calculate total counts for percentage calculations
-total_counts AS (
+-- ========================================================================
+-- SECTION 1: CREATE THE WIDE FORMAT VIEW
+-- ========================================================================
+
+CREATE OR REPLACE VIEW deprecated_demogs_by_country AS 
+WITH total_counts AS (
     SELECT
         COUNT(CASE WHEN Response = 1 THEN 1 END) AS total_responses,
         COUNT(CASE WHEN Complain = 1 THEN 1 END) AS total_complaints,
         SUM(Bulkmail_ad) + SUM(Twitter_ad) + SUM(Instagram_ad) + SUM(Facebook_ad) + SUM(Brochure_ad) AS total_ad_conversions
     FROM customer_data_combined
 ),
--- Calculate metrics by country
 country_metrics AS (
     SELECT
         Country,
@@ -72,7 +81,6 @@ country_metrics AS (
     FROM customer_data_combined
     GROUP BY Country
 ),
--- Calculate channel rankings by country
 channel_rankings AS (
     SELECT
         Country,
@@ -110,216 +118,603 @@ channel_rankings AS (
          ) ranked_channels
         ) AS Top_Three_Channels
     FROM country_metrics
+),
+wide_format AS (
+    -- Age metrics
+    SELECT
+        'Avg_Age' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_Age::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_Age::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_Age::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_Age::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_Age::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_Age::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_Age::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_Age::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_Family_Size' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_Family_Size::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_Family_Size::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_Family_Size::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_Family_Size::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_Family_Size::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_Family_Size::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_Family_Size::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_Family_Size::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_Income' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_Income::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_Income::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_Income::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_Income::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_Income::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_Income::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_Income::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_Income::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_Purchase_Frequency' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_Total_Spending' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_Total_Spending::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_Total_Spending::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_Total_Spending::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_Total_Spending::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_Total_Spending::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_Total_Spending::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_Total_Spending::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_Total_Spending::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtLiq' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtLiq::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtLiq::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtLiq::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtLiq::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtLiq::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtLiq::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtLiq::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtLiq::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtVege' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtVege::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtVege::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtVege::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtVege::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtVege::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtVege::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtVege::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtVege::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtNonVeg' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtNonVeg::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtNonVeg::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtNonVeg::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtNonVeg::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtNonVeg::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtNonVeg::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtNonVeg::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtNonVeg::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtPes' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtPes::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtPes::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtPes::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtPes::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtPes::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtPes::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtPes::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtPes::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtChocolates' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtChocolates::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtChocolates::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtChocolates::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtChocolates::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtChocolates::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtChocolates::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtChocolates::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtChocolates::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Avg_AmtComm' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtComm::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Avg_AmtComm::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Avg_AmtComm::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Avg_AmtComm::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Avg_AmtComm::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Avg_AmtComm::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Avg_AmtComm::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Avg_AmtComm::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Response_Percentage' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Response_Percentage::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Response_Percentage::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Response_Percentage::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Response_Percentage::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Response_Percentage::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Response_Percentage::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Response_Percentage::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Response_Percentage::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Complain_Percentage' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Complain_Percentage::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Complain_Percentage::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Complain_Percentage::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Complain_Percentage::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Complain_Percentage::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Complain_Percentage::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Complain_Percentage::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Complain_Percentage::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Total_Ad_Percentage' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Total_Ad_Percentage::text ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Total_Ad_Percentage::text ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Total_Ad_Percentage::text ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Total_Ad_Percentage::text ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Total_Ad_Percentage::text ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Total_Ad_Percentage::text ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Total_Ad_Percentage::text ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Total_Ad_Percentage::text ELSE NULL END) AS US
+    FROM country_metrics
+
+    UNION ALL
+
+    SELECT
+        'Top_Three_Channels' AS Metric,
+        MAX(CASE WHEN Country = 'AUS' THEN Top_Three_Channels ELSE NULL END) AS AUS,
+        MAX(CASE WHEN Country = 'CA' THEN Top_Three_Channels ELSE NULL END) AS CA,
+        MAX(CASE WHEN Country = 'GER' THEN Top_Three_Channels ELSE NULL END) AS GER,
+        MAX(CASE WHEN Country = 'IND' THEN Top_Three_Channels ELSE NULL END) AS IND,
+        MAX(CASE WHEN Country = 'ME' THEN Top_Three_Channels ELSE NULL END) AS ME,
+        MAX(CASE WHEN Country = 'SA' THEN Top_Three_Channels ELSE NULL END) AS SA,
+        MAX(CASE WHEN Country = 'SP' THEN Top_Three_Channels ELSE NULL END) AS SP,
+        MAX(CASE WHEN Country = 'US' THEN Top_Three_Channels ELSE NULL END) AS US
+    FROM channel_rankings
 )
--- Transform the data to have metrics as rows and countries as columns
--- Convert all values to text to ensure type compatibility with UNION operations
-SELECT
-    'Avg_Age' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Age::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Age::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Age::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Age::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Age::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Age::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Age::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Age::text ELSE NULL END) AS US
-FROM country_metrics
+SELECT * FROM wide_format;
 
-UNION ALL
+-- ========================================================================
+-- SECTION 2: CREATE THE LONG FORMAT VIEW (FOR TABLEAU)
+-- ========================================================================
 
-SELECT
-    'Avg_Family_Size' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Family_Size::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Family_Size::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Family_Size::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Family_Size::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Family_Size::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Family_Size::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Family_Size::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Family_Size::text ELSE NULL END) AS US
-FROM country_metrics
+CREATE OR REPLACE VIEW demogs_by_country AS
+WITH total_counts AS (
+    SELECT
+        COUNT(CASE WHEN Response = 1 THEN 1 END) AS total_responses,
+        COUNT(CASE WHEN Complain = 1 THEN 1 END) AS total_complaints,
+        SUM(Bulkmail_ad) + SUM(Twitter_ad) + SUM(Instagram_ad) + SUM(Facebook_ad) + SUM(Brochure_ad) AS total_ad_conversions
+    FROM customer_data_combined
+),
+country_metrics AS (
+    SELECT
+        Country,
+        ROUND(AVG(2025 - Year_Birth)::numeric, 2) AS Avg_Age,
+        ROUND(AVG(1 + Kidhome + Teenhome + 
+            CASE 
+                WHEN UPPER(Marital_Status) IN ('TOGETHER', 'MARRIED') THEN 1 
+                ELSE 0 
+            END)::numeric, 2) AS Avg_Family_Size,
+        ROUND(AVG(Income_Numeric)::numeric, 2) AS Avg_Income,
+        ROUND(AVG(CASE WHEN Recency = 0 THEN NULL ELSE 1.0/Recency END)::numeric, 2) AS Avg_Purchase_Frequency,
+        ROUND(AVG(AmtLiq + AmtVege + AmtNonVeg + AmtPes + AmtChocolates + AmtComm)::numeric, 2) AS Avg_Total_Spending,
+        ROUND(AVG(AmtLiq)::numeric, 2) AS Avg_AmtLiq,
+        ROUND(AVG(AmtVege)::numeric, 2) AS Avg_AmtVege,
+        ROUND(AVG(AmtNonVeg)::numeric, 2) AS Avg_AmtNonVeg,
+        ROUND(AVG(AmtPes)::numeric, 2) AS Avg_AmtPes,
+        ROUND(AVG(AmtChocolates)::numeric, 2) AS Avg_AmtChocolates,
+        ROUND(AVG(AmtComm)::numeric, 2) AS Avg_AmtComm,
+        ROUND(100.0 * COUNT(CASE WHEN Response = 1 THEN 1 END) / 
+            (SELECT NULLIF(total_responses, 0) FROM total_counts)::numeric, 2) AS Response_Percentage,
+        ROUND(100.0 * COUNT(CASE WHEN Complain = 1 THEN 1 END) / 
+            (SELECT NULLIF(total_complaints, 0) FROM total_counts)::numeric, 2) AS Complain_Percentage,
+        SUM(Bulkmail_ad) AS Total_Bulkmail_Conversions,
+        SUM(Twitter_ad) AS Total_Twitter_Conversions,
+        SUM(Instagram_ad) AS Total_Instagram_Conversions,
+        SUM(Facebook_ad) AS Total_Facebook_Conversions,
+        SUM(Brochure_ad) AS Total_Brochure_Conversions,
+        SUM(Bulkmail_ad) + SUM(Twitter_ad) + SUM(Instagram_ad) + 
+            SUM(Facebook_ad) + SUM(Brochure_ad) AS Country_Total_Ad_Conversions,
+        ROUND(100.0 * (SUM(Bulkmail_ad) + SUM(Twitter_ad) + SUM(Instagram_ad) + 
+            SUM(Facebook_ad) + SUM(Brochure_ad)) / 
+            (SELECT NULLIF(total_ad_conversions, 0) FROM total_counts)::numeric, 2) AS Total_Ad_Percentage,
+        COUNT(*) AS Country_Customer_Count
+    FROM customer_data_combined
+    GROUP BY Country
+),
+channel_rankings AS (
+    SELECT
+        Country,
+        ROUND(100.0 * Total_Bulkmail_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS Bulkmail_Pct,
+        ROUND(100.0 * Total_Twitter_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS Twitter_Pct,
+        ROUND(100.0 * Total_Instagram_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS Instagram_Pct,
+        ROUND(100.0 * Total_Facebook_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS Facebook_Pct,
+        ROUND(100.0 * Total_Brochure_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS Brochure_Pct,
+        (SELECT string_agg(channel || ' (' || percentage || '%)', ', ' ORDER BY percentage DESC, channel)
+         FROM (
+             SELECT 'Bulkmail' AS channel, 
+                ROUND(100.0 * Total_Bulkmail_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS percentage
+             WHERE Total_Bulkmail_Conversions > 0
+             UNION ALL
+             SELECT 'Twitter' AS channel, 
+                ROUND(100.0 * Total_Twitter_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS percentage
+             WHERE Total_Twitter_Conversions > 0
+             UNION ALL
+             SELECT 'Instagram' AS channel, 
+                ROUND(100.0 * Total_Instagram_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS percentage
+             WHERE Total_Instagram_Conversions > 0
+             UNION ALL
+             SELECT 'Facebook' AS channel, 
+                ROUND(100.0 * Total_Facebook_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS percentage
+             WHERE Total_Facebook_Conversions > 0
+             UNION ALL
+             SELECT 'Brochure' AS channel, 
+                ROUND(100.0 * Total_Brochure_Conversions / NULLIF(Country_Customer_Count, 0), 2) AS percentage
+             WHERE Total_Brochure_Conversions > 0
+             ORDER BY percentage DESC
+             LIMIT 3
+         ) ranked_channels
+        ) AS Top_Three_Channels
+    FROM country_metrics
+),
+metrics_union AS (
+    -- Avg_Age
+    SELECT 
+        'Avg_Age' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_Age::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_Income' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Income::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Income::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Income::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Income::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Income::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Income::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Income::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Income::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_Family_Size
+    SELECT 
+        'Avg_Family_Size' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_Family_Size::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_Purchase_Frequency' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_Income
+    SELECT 
+        'Avg_Income' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_Income::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_Total_Spending' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Total_Spending::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Total_Spending::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Total_Spending::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Total_Spending::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Total_Spending::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Total_Spending::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Total_Spending::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Total_Spending::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_Purchase_Frequency
+    SELECT 
+        'Avg_Purchase_Frequency' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_Purchase_Frequency::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtLiq' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtLiq::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtLiq::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtLiq::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtLiq::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtLiq::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtLiq::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtLiq::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtLiq::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_Total_Spending
+    SELECT 
+        'Avg_Total_Spending' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_Total_Spending::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtVege' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtVege::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtVege::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtVege::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtVege::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtVege::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtVege::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtVege::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtVege::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtLiq
+    SELECT 
+        'Avg_AmtLiq' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtLiq::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtNonVeg' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtNonVeg::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtNonVeg::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtNonVeg::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtNonVeg::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtNonVeg::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtNonVeg::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtNonVeg::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtNonVeg::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtVege
+    SELECT 
+        'Avg_AmtVege' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtVege::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtPes' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtPes::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtPes::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtPes::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtPes::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtPes::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtPes::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtPes::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtPes::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtNonVeg
+    SELECT 
+        'Avg_AmtNonVeg' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtNonVeg::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtChocolates' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtChocolates::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtChocolates::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtChocolates::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtChocolates::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtChocolates::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtChocolates::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtChocolates::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtChocolates::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtPes
+    SELECT 
+        'Avg_AmtPes' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtPes::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Avg_AmtComm' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_AmtComm::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_AmtComm::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_AmtComm::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_AmtComm::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_AmtComm::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_AmtComm::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_AmtComm::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_AmtComm::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtChocolates
+    SELECT 
+        'Avg_AmtChocolates' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtChocolates::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Response_Percentage' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Response_Percentage::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Response_Percentage::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Response_Percentage::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Response_Percentage::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Response_Percentage::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Response_Percentage::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Response_Percentage::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Response_Percentage::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Avg_AmtComm
+    SELECT 
+        'Avg_AmtComm' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Avg_AmtComm::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Complain_Percentage' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Complain_Percentage::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Complain_Percentage::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Complain_Percentage::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Complain_Percentage::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Complain_Percentage::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Complain_Percentage::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Complain_Percentage::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Complain_Percentage::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Response_Percentage
+    SELECT 
+        'Response_Percentage' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Response_Percentage::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Total_Ad_Percentage' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Total_Ad_Percentage::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Total_Ad_Percentage::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Total_Ad_Percentage::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Total_Ad_Percentage::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Total_Ad_Percentage::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Total_Ad_Percentage::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Total_Ad_Percentage::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Total_Ad_Percentage::text ELSE NULL END) AS US
-FROM country_metrics
+    -- Complain_Percentage
+    SELECT 
+        'Complain_Percentage' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Complain_Percentage::text AS value
+    FROM country_metrics
 
-UNION ALL
+    UNION ALL
 
-SELECT
-    'Top_Three_Channels' AS Metric,
-    MAX(CASE WHEN Country = 'AUS' THEN Top_Three_Channels ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Top_Three_Channels ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Top_Three_Channels ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Top_Three_Channels ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Top_Three_Channels ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Top_Three_Channels ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Top_Three_Channels ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Top_Three_Channels ELSE NULL END) AS US
-FROM channel_rankings;
+    -- Total_Ad_Percentage
+    SELECT 
+        'Total_Ad_Percentage' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Total_Ad_Percentage::text AS value
+    FROM country_metrics
 
--- Command to view the new table structure
-SELECT * FROM demogs_by_country;
+    UNION ALL
+
+    -- Top_Three_Channels
+    SELECT 
+        'Top_Three_Channels' AS metric, 
+        Country AS region,
+        CASE
+            WHEN Country = 'AUS' THEN 'Australia'
+            WHEN Country = 'CA' THEN 'Canada'
+            WHEN Country = 'GER' THEN 'Germany'
+            WHEN Country = 'IND' THEN 'India'
+            WHEN Country = 'ME' THEN 'Middle East'
+            WHEN Country = 'SA' THEN 'South Africa'
+            WHEN Country = 'SP' THEN 'Spain'
+            WHEN Country = 'US' THEN 'United States'
+            ELSE Country
+        END AS region_full_name,
+        Top_Three_Channels AS value
+    FROM channel_rankings
+)
+SELECT * FROM metrics_union;
+
+-- Verify the views
+-- SELECT * FROM demogs_by_country;
+-- SELECT * FROM deprecated_demogs_by_country;

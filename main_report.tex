@@ -44,7 +44,7 @@
 % Customize section titles without lines but with numbering
 \titleformat{\section}{
   \normalfont\Large\bfseries
-}{\thesection.}{0.5em}{\centering}
+}{\thesection.}{0.5em}{}
 
 % Customize unnumbered section titles (e.g., References) without horizontal lines
 \titleformat{name=\section,numberless}
@@ -92,11 +92,13 @@
 
 \section{The 2Market Scenario}
 
-2Market is a retail company with a customer base across multiple countries. The company collects extensive data on customer demographics as shown by \textittt{marketing\_data.csv}, \textittt{ad\_data.csv}, and \textittt{metadata\_2Market.txt}. The analysis aims to identify customer profiles by region, determine which advertising channels are most effective, and discover product preferences across different demographic segments. This information will help 2Market optimize its marketing strategy, tailor product offerings to specific segments, and improve business performance through data-driven decision-making.
+2Market is a retail company with a customer base across multiple countries. The company collects extensive data on customer demographics as shown by \textittt{marketing\_data.csv}, \textittt{ad\_data.csv}, and \textittt{metadata\_2Market.txt}\footnote{The GitHub repository \href{https://github.com/totoberni/LSE-DA101.git}{\textittt{LSE-DA101}} contains the project files mentioned in this report.}. \\
+\\
+The analysis aims to identify customer profiles by region, determine which advertising channels are most effective, and discover product preferences across different demographic segments. This information will help 2Market optimize its marketing strategy, tailor product offerings to specific segments, and improve business performance through data-driven decision-making.
 \section{Analytical Approach - PostgreSQL}
 \begin{figure}[h!]
 \centering
-\resizebox{!}{0.15\textwidth}{
+\resizebox{!}{!}{
 \begin{tikzpicture}[
     entity/.style={rectangle, draw, minimum width=3.5cm, minimum height=1cm, text centered, font=\sffamily\bfseries},
     pipo/.style={rectangle, draw, dashed, minimum width=3.5cm, minimum height=1cm, text centered, font=\sffamily},
@@ -116,41 +118,45 @@
 
 \end{tikzpicture}
 }
+\vspace{5pt}
 \caption{Initial Database Schema Showing Data Integration. The 1:1 relationships represent direct mapping of records between source and combined tables.}
 \label{fig:initial-schema}
 \end{figure}
-\noindent This analysis leverages PostgreSQL to handle structured relational data. The database is constructed in three phases: first, \textittt{tableMaking.sql} creates the correctly formatted tables for \textittt{ad\_data} and \textittt{market\_data}; next, file contents are imported through the \textittt{PgAdmin4} GUI and cleaned by \textittt{tableDataCleaning.sql} to form the unified table \textittt{customer\_data\_combined} shown in Fig.~\ref{fig:initial-schema}. Finally, three SQL scripts build views to examine the following relationships:
+\vspace{10pt}
+\noindent This analysis leverages PostgreSQL to handle structured relational data. The database is constructed in three phases: first, \textittt{tableMaking.sql} creates the correctly formatted tables for \textittt{ad\_data} and \textittt{market\_data}; next, file contents are imported through the \textittt{PgAdmin4} GUI and cleaned by \textittt{tableDataCleaning.sql} to form the unified table \textittt{customer\_data\_combined} shown in Fig.~\ref{fig:initial-schema}. Finally, the following scripts build views to examine data relationships:\\
 \paragraph{\textittt{customerDemographics.sql}}
-{\footnotesize
 \begin{itemize}
+\begin{minipage}{\textwidth}
     \item How do customer profiles and spending behaviors vary by geographic region?
     \item Which countries show exceptional spending patterns compared to global averages?
     \item How do demographic factors (age, family size, income) differ across regions?
     \item Which marketing channels demonstrate the highest effectiveness in each country?
     \item What are the regional patterns in campaign responsiveness and complaint rates?
+\end{minipage}
 \end{itemize}
-}
+\clearpage
+\newpage
 \paragraph{\textittt{adChannelAnalyis.sql}}
-{\footnotesize
 \begin{itemize}
+\begin{minipage}{\textwidth}
     \item Which advertising channels have highest conversion rates across customer base?
     \item How do purchasing patterns and preferences differ across marketing channels?
     \item Which channels generate the highest revenue per customer?
     \item Are there any behavioral differences among customers from different channels?
-    \item How do conversion patterns correlate with customer value across channels?
+\end{minipage}
 \end{itemize}
-}
-{\footnotesize
+
 \paragraph{\textittt{productDemographics.sql}}
 \begin{itemize}
-    \item How do product preferences and spending vary across demographic segments?
+\begin{minipage}{\textwidth}
     \item What is the relationship between age and spending power for luxury items?
     \item How does family structure influence spending and marketing responsiveness?
     \item What is the income elasticity of different product categories?
     \item How do education level and customer tenure correlate with behavioral patterns?
     \item Which demographic segments show the highest potential for targeted marketing?
-\end{itemize}
-}
+\end{minipage}
+\end{itemize}    
+
 \noindent Tabular results from these operations are reported in Sections \ref{a1:s1} - \ref{a1:s3} of the Appendix.
 
 \subsection{Customer Demographics Analysis}
@@ -173,11 +179,11 @@
 \caption{Customer Demographics Analysis Schema. $N:n=8$ represents the ratio of total unique customer IDs ($N$) to $n=8$, number of unique countries.}
 \label{fig:demographics-schema}
 \end{figure}
-The demographic analysis shown in Fig.~\ref{fig:demographics-schema} reveals regional variations in customer preferences. Montenegro (ME) customers demonstrate high spending patterns, with average total spending of \$1,040.67 compared to the global average of \$607.08, particularly in alcoholic beverages (\$576.33 vs. global \$305.09); further, Spain (SP) dominates in campaign responsiveness with 52.85\% of all responses and 66.67\% of all complaints.\\
+\noindent The demographic analysis shown in Fig.~\ref{fig:demographics-schema} reveals regional variations in customer preferences. Montenegro (ME) customers demonstrate high spending patterns, with average total spending of \$1,040.67 compared to the global average of \$607.08, particularly in alcoholic beverages (\$576.33 vs. global \$305.09); further, Spain (SP) dominates in campaign responsiveness with 52.85\% of all responses and 66.67\% of all complaints.\\
 \\
 Age demographics show minor variation in age (51-56 years) and family size averages between 2-3 members. Marketing channel effectiveness varies: Instagram performs best in Australia (8.16\%) and Spain (8.14\%), Twitter leads in Canada (9.02\%) and Germany (9.48\%), while Bulkmail yields effects in India (8.84\%) and Montenegro (33.33\%). This geographic variation highlights the importance of regionally targeted strategies rather than a one-size-fits-all marketing approach.
 \subsection{Ad Channel Effectiveness Analysis}
-Advertising channel analysis reveals Twitter (7.40\%) and Bulkmail (7.36\%) have the highest conversion rates, with Instagram close behind (7.31\%). Collectively, these three channels account for nearly 74\% of all conversions. Brochure marketing is the lowest for effectiveness at just 1.35\% conversion and 4.54\% of total conversions.
+Advertising channel analysis reveals Twitter (7.40\%) and Bulkmail (7.36\%) have the highest conversion rates, with Instagram close behind (7.31\%). Collectively, these three channels account for nearly 74\% of all conversions. Brochure marketing is the lowest for effectiveness at just 1.35\% conversion and 4.54\% of total conversions.\\
 \begin{figure}[h!]
 \centering
 \resizebox{!}{!}{
@@ -204,13 +210,18 @@ Advertising channel analysis reveals Twitter (7.40\%) and Bulkmail (7.36\%) have
 
 \end{tikzpicture}
 }
+\vspace{5pt}
 \caption{Ad Channel Analysis Schema. The relationships show ratios of customer IDs ($N$) to number of rows in each analysis view: conversion ($n=2$ metrics), product ($n=7$ channels), revenue ($n=8$ channels), and behavior ($n=8$ channels).}
 \label{fig:ad-channel-schema}
 \end{figure}
 \FloatBarrier
+\vspace{5pt}
 \noindent Product affinity analysis shows distinct purchasing patterns across channels. Instagram customers spend significantly more on alcoholic beverages (\$873.77) and meat products (\$467.90) compared to global averages (\$305.09 and \$167.00, respectively), while Bulkmail converts more budget-conscious customers. Revenue analysis confirms this; Instagram generates the highest customer value (\$1,616.43 per customer, 266\% of global average) despite reaching fewer customers than other channels. Facebook achieves similar results with \$1,484.35 per customer (244\% of global average).\\
 \\
 Behavioral analysis reveals Instagram and Facebook generate fewer but higher-value website visits, with visit-to-purchase conversion rates approximately 40\% higher than average. Bulkmail customers show lower in-store purchases (86\% of average) but higher response rates to campaigns (313\% of average). This analysis suggests channel-specific strategies: Instagram/Facebook for premium product marketing, Twitter for broader reach, and Bulkmail for campaign engagement and response.
+\clearpage
+\newpage
+
 \subsection{Product Demographics Analysis}
 \begin{figure}[h!]
 \centering
@@ -246,10 +257,10 @@ Behavioral analysis reveals Instagram and Facebook generate fewer but higher-val
 
 \end{tikzpicture}
 }
-\caption{Product Demographics Analysis Schema. Each relationship shows the ratio of unique customer IDs ($N$) to the number of demographic segments in each analysis: country ($n=8$), age ($n=6$), family size ($n=6$), income bracket ($n=6$), education level ($n=6$), and tenure group ($n=7$).}
+\caption{Product Demographics Analysis Schema. Each relationship shows the ratio of unique customer IDs ($N$) to $n$, the number of demographic segments in each analysis.}
 \label{fig:product-demographics-schema}
 \end{figure}
-\FloatBarrier
+
 \noindent Product demographics analysis reveals strong correlations between customer segments and purchasing patterns. Age-based analysis shows a clear correlation between age and spending power, with the oldest customer segment (Age\_Group\_6) spending 27\% more than the youngest (\$743.11 versus \$584.71). The most significant difference is alcoholic beverage purchases, where spending increases by 55\% from youngest to oldest groups (\$255.32 to \$396.41). Family structure also influences spending patterns, with single-person households spending nearly four times more per person (\$1,107.23) than five-person households (\$299.03). Response rates to marketing campaigns follow this pattern, with single-person households demonstrating five times higher response rates than $5+$ member households ($40.1\%$  versus 3.2\%).\\
 \\
 Income analysis reveals the most striking disparities, with the highest income bracket spending nearly 20 times more (\$1,425.13) than the lowest (\$72.18). Notably, luxury items show the highest elasticity—spending on alcoholic beverages (47.7 times from lowest to highest income brackets), while commodities spending increases by a factor of 4.2. It follows that education level shows a strong correlation with spending patterns and marketing receptiveness. PhD holders spend 8.3 times more (\$676.73) than those with basic education (\$81.80) and respond to marketing at 5.7 times the rate (21.0\% versus 3.7\%). Customer tenure analysis also demonstrates that the longest-tenured customers spend 68\% more (\$776.17) than newer customers (\$462.53), responding to marketing campaigns at nearly four times the rate (30.3\% versus 7.6\%).\\
@@ -258,11 +269,14 @@ These findings provide clear segmentation guidance for 2Market: target high-valu
 \clearpage
 \newpage
 
+\section{Dashboard Design and Development}
+For the scope of this analysis, the \textittt{PostgreSQL} tables generated in the sections above have been pivoted from wide table format to long table format to maximise regional visibility on Tableau. Data collected in the tables was cleaned and processed to be displayed on the software. Being more cumbersome than expected, this process was not finished before the Analysis Report Deadline. As a result, a presentation of the Tableau Notebook was not produced in time.
+
+
 
 % Start the appendix
 \begin{appendix}
-\section{Data Tables from SQL Analysis}\label{a1}
-
+\section{Appendix A - Data Tables from SQL Analysis}\label{a1}
 This appendix contains the detailed data tables generated from the SQL analysis scripts. These tables provide the raw data that supports the analysis presented in the main report.
 
 \subsection{Customer Demographics Analysis}\label{a1:s1}
@@ -274,7 +288,7 @@ Table~\ref{tab:demographics} shows the key demographic metrics by country, gener
 \centering
 \caption{Customer Demographics by Country}
 \label{tab:demographics}
-\resizebox{\textwidth}{!}{
+\resizebox{!}{0.15\textwidth}{
 \begin{tabular}{lrrrrrrrr}
 \toprule
 \textbf{Metric} & \textbf{AUS} & \textbf{CA} & \textbf{GER} & \textbf{IND} & \textbf{ME} & \textbf{SA} & \textbf{SP} & \textbf{US} \\
@@ -302,7 +316,7 @@ Total\_Ad\_Percentage & 5.14 & 13.16 & 5.75 & 5.75 & 0.15 & 13.01 & 53.10 & 3.93
 \centering
 \caption{Top Three Marketing Channels by Country}
 \label{tab:topchannels}
-\resizebox{!}{!}{
+\resizebox{!}{0.15\textwidth}{
 \begin{tabular}{lp{11cm}}
 \toprule
 \textbf{Country} & \textbf{Top Three Channels} \\
@@ -319,14 +333,13 @@ US & Bulkmail (7.48\%), Facebook (6.54\%), Twitter (5.61\%) \\
 \end{tabular}
 }
 \end{table}
+\clearpage
+\newpage
 
 \subsection{Ad Channel Effectiveness Analysis}\label{a1:s2}
 \label{app:adchannelanalysis}
 
-Tables~\ref{tab:conversionrates}-\ref{tab:channelbehavior} display the results of the ad channel effectiveness analysis generated by the \textittt{adChannelAnalysis.sql} script. These tables show conversion rates, product affinities, revenue, and customer behavior by marketing channel.
-\clearpage
-\newpage
-
+Tables~\ref{tab:conversionrates}-\ref{tab:channelbehavior} display the results of the ad channel effectiveness analysis generated by the \textittt{adChannelAnalysis.sql} script. These tables show conversion rates, product affinities, revenue, and customer behavior by marketing channel.\\
 \begin{table}[!htbp]
 \centering
 \caption{Ad Channel Conversion Rates}
@@ -408,6 +421,7 @@ Bulkmail & 0.0482 & 5.85 & 4.50 & 2.17 & 0.47 & 5.01 & 0.01 & 163 \\
 \bottomrule
 \end{tabular}
 }
+\label{tab:channelbehavior}
 \end{table}
 
 \subsection{Product Demographics Analysis}\label{a1:s3}
