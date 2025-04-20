@@ -647,12 +647,104 @@ ORDER BY
     END,
     c.Avg_Purchase_Frequency DESC;
 
+CREATE OR REPLACE VIEW miao AS
+WITH global_rates AS (
+    SELECT
+        'bulkmail_ad' AS channel,
+        bulkmail_ad AS global_conversion_rate
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Global_Conversion_Rates'
+    
+    UNION ALL
+    
+    SELECT
+        'twitter_ad' AS channel,
+        twitter_ad AS global_conversion_rate
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Global_Conversion_Rates'
+    
+    UNION ALL
+    
+    SELECT
+        'instagram_ad' AS channel,
+        instagram_ad AS global_conversion_rate
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Global_Conversion_Rates'
+    
+    UNION ALL
+    
+    SELECT
+        'facebook_ad' AS channel,
+        facebook_ad AS global_conversion_rate
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Global_Conversion_Rates'
+    
+    UNION ALL
+    
+    SELECT
+        'brochure_ad' AS channel,
+        brochure_ad AS global_conversion_rate
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Global_Conversion_Rates'
+),
+share_rates AS (
+    SELECT
+        'bulkmail_ad' AS channel,
+        bulkmail_ad AS channel_share
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Channel_Share_of_Conversions'
+    
+    UNION ALL
+    
+    SELECT
+        'twitter_ad' AS channel,
+        twitter_ad AS channel_share
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Channel_Share_of_Conversions'
+    
+    UNION ALL
+    
+    SELECT
+        'instagram_ad' AS channel,
+        instagram_ad AS channel_share
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Channel_Share_of_Conversions'
+    
+    UNION ALL
+    
+    SELECT
+        'facebook_ad' AS channel,
+        facebook_ad AS channel_share
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Channel_Share_of_Conversions'
+    
+    UNION ALL
+    
+    SELECT
+        'brochure_ad' AS channel,
+        brochure_ad AS channel_share
+    FROM ad_channel_conversion_analysis
+    WHERE metric = 'Channel_Share_of_Conversions'
+)
+SELECT
+    g.channel,
+    g.global_conversion_rate,
+    s.channel_share,
+    (SELECT all_channels FROM ad_channel_conversion_analysis WHERE metric = 'Global_Conversion_Rates' LIMIT 1) AS all_channels_global,
+    (SELECT all_channels FROM ad_channel_conversion_analysis WHERE metric = 'Channel_Share_of_Conversions' LIMIT 1) AS all_channels_share
+FROM
+    global_rates g
+JOIN
+    share_rates s ON g.channel = s.channel;
+
 -- ========================================================================
 -- Sample queries to test the views (and the vibes)
 -- ========================================================================
 
 -- View the conversion analysis results
 SELECT * FROM ad_channel_conversion_analysis;
+
+SELECT * FROM miao;
 
 -- View product affinity results
 SELECT * FROM ad_channel_product_affinity;

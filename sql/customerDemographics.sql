@@ -715,6 +715,44 @@ metrics_union AS (
 )
 SELECT * FROM metrics_union;
 
+CREATE OR REPLACE VIEW demogs_by_country_tableau AS
+WITH base_data AS (
+    SELECT * FROM demogs_by_country
+    WHERE metric != 'Top_Three_Channels'
+),
+channel_data AS (
+    SELECT
+        region,
+        region_full_name,
+        REGEXP_MATCHES(value, '([A-Za-z]+) \(([0-9.]+)%\)', 'g') AS channel_match
+    FROM demogs_by_country
+    WHERE metric = 'Top_Three_Channels'
+),
+extracted_channels AS (
+    SELECT
+        region,
+        region_full_name,
+        channel_match[1] AS channel,
+        channel_match[2]::numeric AS percentage
+    FROM channel_data
+)
+SELECT
+    metric,
+    region,
+    region_full_name,
+    value
+FROM base_data
+
+UNION ALL
+
+SELECT
+    'Channel_' || channel AS metric,
+    region,
+    region_full_name,
+    percentage::text AS value
+FROM extracted_channels;
+
 -- Verify the views
--- SELECT * FROM demogs_by_country;
--- SELECT * FROM deprecated_demogs_by_country;
+SELECT * FROM demogs_by_country;
+SELECT * FROM demogs_by_country_tableau;
+SELECT * FROM deprecated_demogs_by_country;
