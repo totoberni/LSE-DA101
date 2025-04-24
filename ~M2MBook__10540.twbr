@@ -10,6 +10,8 @@
     <_.fcp.DatagraphNodeAxisTitle.true...DatagraphNodeAxisTitle />
     <DatagraphNodeSingleValueFieldV1 />
     <_.fcp.IndividualControlFormatting.true...IndividualControlFormatting />
+    <IntuitiveSorting />
+    <IntuitiveSorting_SP2 />
     <MapboxVectorStylesAndLayers />
     <MarkAnimation />
     <ObjectModelEncapsulateLegacy />
@@ -17,6 +19,7 @@
     <SchemaViewerObjectModel />
     <SetMembershipControl />
     <SheetIdentifierTracking />
+    <SortTagCleanup />
     <WindowsPersistSimpleIdentifiers />
     <ZoneBackgroundTransparency />
   </document-format-change-manifest>
@@ -27,8 +30,8 @@
   <datasources>
     <datasource hasconnection='false' inline='true' name='Parameters' version='18.1'>
       <aliases enabled='yes' />
-      <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_Age&quot;'>
-        <calculation class='tableau' formula='&quot;Avg_Age&quot;' />
+      <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_AmtLiq&quot;'>
+        <calculation class='tableau' formula='&quot;Avg_AmtLiq&quot;' />
         <members>
           <member value='&quot;Avg_Age&quot;' />
           <member value='&quot;Avg_AmtChocolates&quot;' />
@@ -48,13 +51,6 @@
           <member value='&quot;Complain_Percentage&quot;' />
           <member value='&quot;Response_Percentage&quot;' />
           <member value='&quot;Total_Ad_Percentage&quot;' />
-        </members>
-      </column>
-      <column caption='AdConv' datatype='string' name='[Parameter 2]' param-domain-type='list' role='measure' type='nominal' value='&quot;Channel_Share_of_Conversions&quot;'>
-        <calculation class='tableau' formula='&quot;Channel_Share_of_Conversions&quot;' />
-        <members>
-          <member value='&quot;Channel_Share_of_Conversions&quot;' />
-          <member value='&quot;Global_Conversion_Rates&quot;' />
         </members>
       </column>
       <style>
@@ -110,7 +106,7 @@
             <attributes>
               <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
             </attributes>
-            <object-id>[demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7]</object-id>
+            <object-id>[demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E]</object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>region</remote-name>
@@ -127,7 +123,7 @@
             <attributes>
               <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
             </attributes>
-            <object-id>[demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7]</object-id>
+            <object-id>[demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E]</object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>region_full_name</remote-name>
@@ -144,7 +140,7 @@
             <attributes>
               <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
             </attributes>
-            <object-id>[demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7]</object-id>
+            <object-id>[demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E]</object-id>
           </metadata-record>
           <metadata-record class='column'>
             <remote-name>value</remote-name>
@@ -162,7 +158,7 @@
             <attributes>
               <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
             </attributes>
-            <object-id>[demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7]</object-id>
+            <object-id>[demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E]</object-id>
           </metadata-record>
         </metadata-records>
       </connection>
@@ -170,24 +166,24 @@
       <column caption='Selected Value' datatype='real' name='[Calculation_1344324489445281793]' role='measure' type='quantitative'>
         <calculation class='tableau' formula='FLOAT(IF [metric] = [Parameters].[Parameter 1] THEN [value] ELSE NULL END)' />
       </column>
-      <column caption='demogs_by_country_tableau' datatype='table' name='[__tableau_internal_object_id__].[demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7]' role='measure' type='quantitative' />
+      <column caption='demogs_by_country_tableau' datatype='table' name='[__tableau_internal_object_id__].[demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E]' role='measure' type='quantitative' />
       <column caption='Metric' datatype='string' name='[metric]' role='dimension' type='nominal' />
       <column caption='Region' datatype='string' name='[region]' role='dimension' semantic-role='[Country].[Name]' type='nominal' />
       <column caption='Region Full Name' datatype='string' name='[region_full_name]' role='dimension' semantic-role='[Country].[Name]' type='nominal' />
       <column caption='Value' datatype='real' datatype-customized='true' name='[value]' role='dimension' type='ordinal' />
-      <layout common-percentage='0.640382' dim-ordering='alphabetic' measure-ordering='alphabetic' parameter-percentage='0.359618' rowDisplayCount='100' show-structure='true' user-set-layout-v2='true' />
+      <layout common-percentage='0.585868' dim-ordering='alphabetic' measure-ordering='alphabetic' parameter-percentage='0.414132' rowDisplayCount='100' show-structure='true' user-set-layout-v2='true' />
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;United Kingdom&quot;' />
       </semantic-values>
       <date-options start-of-week='monday' />
       <datasource-dependencies datasource='Parameters'>
-        <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_Age&quot;'>
-          <calculation class='tableau' formula='&quot;Avg_Age&quot;' />
+        <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_AmtLiq&quot;'>
+          <calculation class='tableau' formula='&quot;Avg_AmtLiq&quot;' />
         </column>
       </datasource-dependencies>
       <object-graph>
         <objects>
-          <object caption='demogs_by_country_tableau' id='demogs_by_country_tableau_B473978A9AD348B6A62B5FE705B9D4B7'>
+          <object caption='demogs_by_country_tableau' id='demogs_by_country_tableau_05FB68E1983640C0BC5E3B201F68002E'>
             <properties context=''>
               <relation connection='postgres.0zbghx302dxhji13bjc460qkxxe6' name='demogs_by_country_tableau' table='[public].[demogs_by_country_tableau]' type='table' />
             </properties>
@@ -195,22 +191,309 @@
         </objects>
       </object-graph>
     </datasource>
-    <datasource caption='AdAnalysis' inline='true' name='federated.0okywbt0mrmrfe124v0b00xm3wy3' version='18.1'>
+    <datasource caption='AdAnalysis' inline='true' name='federated.1rkdaee109akql1dyw2z21soqryz' version='18.1'>
       <connection class='federated'>
         <named-connections>
-          <named-connection caption='localhost' name='postgres.0gnzsm002fj2rc1f6f1wm1wnewoh'>
+          <named-connection caption='localhost' name='postgres.0vjid180jj1mae1h3hvwt03y6kka'>
             <connection authentication='username-password' class='postgres' dbname='2Market' one-time-sql='' port='5432' server='localhost' username='postgres' />
           </named-connection>
         </named-connections>
+        <relation connection='postgres.0vjid180jj1mae1h3hvwt03y6kka' name='miao' table='[public].[miao]' type='table' />
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>channel</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[channel]</local-name>
+            <parent-name>[miao]</parent-name>
+            <remote-alias>channel</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>2147483647</width>
+            <contains-null>true</contains-null>
+            <cast-to-local-type>true</cast-to-local-type>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[miao_20CB9639F3964AF1B53D88CB7DD14FCB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>global_conversion_rate</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[global_conversion_rate]</local-name>
+            <parent-name>[miao]</parent-name>
+            <remote-alias>global_conversion_rate</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[miao_20CB9639F3964AF1B53D88CB7DD14FCB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>channel_share</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[channel_share]</local-name>
+            <parent-name>[miao]</parent-name>
+            <remote-alias>channel_share</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[miao_20CB9639F3964AF1B53D88CB7DD14FCB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>all_channels_global</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[all_channels_global]</local-name>
+            <parent-name>[miao]</parent-name>
+            <remote-alias>all_channels_global</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[miao_20CB9639F3964AF1B53D88CB7DD14FCB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>all_channels_share</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[all_channels_share]</local-name>
+            <parent-name>[miao]</parent-name>
+            <remote-alias>all_channels_share</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[miao_20CB9639F3964AF1B53D88CB7DD14FCB]</object-id>
+          </metadata-record>
+        </metadata-records>
       </connection>
       <aliases enabled='yes' />
+      <column caption='miao' datatype='table' name='[__tableau_internal_object_id__].[miao_20CB9639F3964AF1B53D88CB7DD14FCB]' role='measure' type='quantitative' />
+      <column caption='All Channels Global' datatype='real' name='[all_channels_global]' role='measure' type='quantitative' />
+      <column caption='All Channels Share' datatype='real' name='[all_channels_share]' role='measure' type='quantitative' />
       <column caption='Channel' datatype='string' name='[channel]' role='dimension' type='nominal' />
+      <column caption='Channel Share' datatype='real' name='[channel_share]' role='measure' type='quantitative' />
+      <column caption='Global Conversion Rate' datatype='real' name='[global_conversion_rate]' role='measure' type='quantitative' />
+      <column-instance column='[channel]' derivation='None' name='[none:channel:nk]' pivot='key' type='nominal' />
       <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:channel:nk]' palette='blue_red_brown_10_0' type='palette'>
+            <map to='#466f9d'>
+              <bucket>&quot;brochure_ad&quot;</bucket>
+            </map>
+            <map to='#91b3d7'>
+              <bucket>&quot;bulkmail_ad&quot;</bucket>
+            </map>
+            <map to='#9d7660'>
+              <bucket>&quot;twitter_ad&quot;</bucket>
+            </map>
+            <map to='#ed444a'>
+              <bucket>&quot;facebook_ad&quot;</bucket>
+            </map>
+            <map to='#feb5a2'>
+              <bucket>&quot;instagram_ad&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
       <semantic-values>
         <semantic-value key='[Country].[Name]' value='&quot;United Kingdom&quot;' />
       </semantic-values>
       <date-options start-of-week='monday' />
-      <object-graph />
+      <object-graph>
+        <objects>
+          <object caption='miao' id='miao_20CB9639F3964AF1B53D88CB7DD14FCB'>
+            <properties context=''>
+              <relation connection='postgres.0vjid180jj1mae1h3hvwt03y6kka' name='miao' table='[public].[miao]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+    <datasource caption='AdAnalysis2' inline='true' name='federated.135jmn90wkbj6512nj8wh13eoyol' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='localhost' name='postgres.0sy1cv8060932r1cti9v017u2w9t'>
+            <connection authentication='username-password' class='postgres' dbname='2Market' one-time-sql='' port='5432' server='localhost' username='postgres' />
+          </named-connection>
+        </named-connections>
+        <relation connection='postgres.0sy1cv8060932r1cti9v017u2w9t' name='ad_channel_product_affinity_tableau' table='[public].[ad_channel_product_affinity_tableau]' type='table' />
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>channel</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[channel]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>channel</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>2147483647</width>
+            <contains-null>true</contains-null>
+            <cast-to-local-type>true</cast-to-local-type>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>product_category</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[product_category]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>product_category</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>2147483647</width>
+            <contains-null>true</contains-null>
+            <cast-to-local-type>true</cast-to-local-type>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>average_spending</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[average_spending]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>average_spending</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>is_top_three_product</remote-name>
+            <remote-type>11</remote-type>
+            <local-name>[is_top_three_product]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>is_top_three_product</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>boolean</local-type>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>product_rank</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[product_rank]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>product_rank</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>19</precision>
+            <contains-null>true</contains-null>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>top_three_products</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[top_three_products]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>top_three_products</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <width>2147483647</width>
+            <contains-null>true</contains-null>
+            <cast-to-local-type>true</cast-to-local-type>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='TypeIsVarchar'>&quot;true&quot;</attribute>
+            </attributes>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>global_average</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[global_average]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>global_average</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>pct_diff_from_global_avg</remote-name>
+            <remote-type>131</remote-type>
+            <local-name>[pct_diff_from_global_avg]</local-name>
+            <parent-name>[ad_channel_product_affinity_tableau]</parent-name>
+            <remote-alias>pct_diff_from_global_avg</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>17</precision>
+            <contains-null>true</contains-null>
+            <object-id>[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='ad_channel_product_affinity_tableau' datatype='table' name='[__tableau_internal_object_id__].[ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2]' role='measure' type='quantitative' />
+      <column caption='Average Spending' datatype='real' name='[average_spending]' role='measure' type='quantitative' />
+      <column caption='Channel' datatype='string' name='[channel]' role='dimension' type='nominal' />
+      <column caption='Global Average' datatype='real' name='[global_average]' role='measure' type='quantitative' />
+      <column caption='Is Top Three Product' datatype='boolean' name='[is_top_three_product]' role='dimension' type='nominal' />
+      <column caption='Pct Diff From Global Avg' datatype='real' name='[pct_diff_from_global_avg]' role='measure' type='quantitative' />
+      <column caption='Product Category' datatype='string' name='[product_category]' role='dimension' type='nominal' />
+      <column caption='Product Rank' datatype='integer' name='[product_rank]' role='measure' type='quantitative' />
+      <column caption='Top Three Products' datatype='string' name='[top_three_products]' role='dimension' type='nominal' />
+      <column-instance column='[product_category]' derivation='None' name='[none:product_category:nk]' pivot='key' type='nominal' />
+      <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:product_category:nk]' palette='blue_red_brown_10_0' type='palette'>
+            <map to='#466f9d'>
+              <bucket>&quot;Alcohol&quot;</bucket>
+            </map>
+            <map to='#91b3d7'>
+              <bucket>&quot;Chocolates&quot;</bucket>
+            </map>
+            <map to='#9d7660'>
+              <bucket>&quot;Meat&quot;</bucket>
+            </map>
+            <map to='#d7b5a6'>
+              <bucket>&quot;Vegetables&quot;</bucket>
+            </map>
+            <map to='#ed444a'>
+              <bucket>&quot;Commodities&quot;</bucket>
+            </map>
+            <map to='#feb5a2'>
+              <bucket>&quot;Fish&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United Kingdom&quot;' />
+      </semantic-values>
+      <date-options start-of-week='monday' />
+      <object-graph>
+        <objects>
+          <object caption='ad_channel_product_affinity_tableau' id='ad_channel_product_affinity_tableau_5A68D46A06274093AB26D1BC0F4642B2'>
+            <properties context=''>
+              <relation connection='postgres.0sy1cv8060932r1cti9v017u2w9t' name='ad_channel_product_affinity_tableau' table='[public].[ad_channel_product_affinity_tableau]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
     </datasource>
   </datasources>
   <mapsources>
@@ -221,24 +504,22 @@
       <layout-options>
         <title>
           <formatted-text>
-            <run fontalignment='1'>Global Conversion Rates</run>
+            <run bold='true' fontalignment='1' fontname='Tableau Semibold'>Global Conversion Rates</run>
           </formatted-text>
         </title>
       </layout-options>
       <table>
         <view>
           <datasources>
-            <datasource caption='AdAnalysis' name='federated.0okywbt0mrmrfe124v0b00xm3wy3' />
-            <datasource name='Parameters' />
+            <datasource caption='AdAnalysis' name='federated.1rkdaee109akql1dyw2z21soqryz' />
           </datasources>
-          <datasource-dependencies datasource='Parameters'>
-            <column caption='AdConv' datatype='string' name='[Parameter 2]' param-domain-type='list' role='measure' type='nominal' value='&quot;Channel_Share_of_Conversions&quot;'>
-              <calculation class='tableau' formula='&quot;Channel_Share_of_Conversions&quot;' />
-            </column>
-          </datasource-dependencies>
-          <datasource-dependencies datasource='federated.0okywbt0mrmrfe124v0b00xm3wy3'>
+          <datasource-dependencies datasource='federated.1rkdaee109akql1dyw2z21soqryz'>
             <column caption='Channel' datatype='string' name='[channel]' role='dimension' type='nominal' />
+            <column caption='Channel Share' datatype='real' name='[channel_share]' role='measure' type='quantitative' />
+            <column caption='Global Conversion Rate' datatype='real' name='[global_conversion_rate]' role='measure' type='quantitative' />
             <column-instance column='[channel]' derivation='None' name='[none:channel:nk]' pivot='key' type='nominal' />
+            <column-instance column='[channel_share]' derivation='Sum' name='[sum:channel_share:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[global_conversion_rate]' derivation='Sum' name='[sum:global_conversion_rate:qk]' pivot='key' type='quantitative' />
           </datasource-dependencies>
           <aggregation value='false' />
         </view>
@@ -250,7 +531,9 @@
             </view>
             <mark class='Pie' />
             <encodings>
-              <color column='[federated.0okywbt0mrmrfe124v0b00xm3wy3].[none:channel:nk]' />
+              <color column='[federated.1rkdaee109akql1dyw2z21soqryz].[none:channel:nk]' />
+              <wedge-size column='[federated.1rkdaee109akql1dyw2z21soqryz].[sum:global_conversion_rate:qk]' />
+              <tooltip column='[federated.1rkdaee109akql1dyw2z21soqryz].[sum:channel_share:qk]' />
             </encodings>
             <style>
               <style-rule element='mark'>
@@ -261,9 +544,6 @@
         </panes>
         <rows />
         <cols />
-        <pages>
-          <column>[Parameters].[Parameter 2]</column>
-        </pages>
       </table>
       <simple-id uuid='{E858C58F-427D-4B6D-BB36-88C6BED9F597}' />
     </worksheet>
@@ -284,8 +564,8 @@
             <datasource name='Parameters' />
           </datasources>
           <datasource-dependencies datasource='Parameters'>
-            <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_Age&quot;'>
-              <calculation class='tableau' formula='&quot;Avg_Age&quot;' />
+            <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_AmtLiq&quot;'>
+              <calculation class='tableau' formula='&quot;Avg_AmtLiq&quot;' />
             </column>
           </datasource-dependencies>
           <datasource-dependencies datasource='federated.03y8dho0qzj4y1106hd6d08wty5w'>
@@ -302,7 +582,7 @@
         </view>
         <style>
           <style-rule element='axis'>
-            <format attr='title' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' scope='rows' value='Avg_Age' />
+            <format attr='title' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' scope='rows' value='Avg_AmtLiq' />
             <encoding attr='space' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' field-type='quantitative' min='0.0' range-type='fixedmin' scope='rows' type='space' />
             <format attr='width' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' value='100' />
             <format attr='tick-color' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' value='#e6e6e6' />
@@ -413,8 +693,8 @@
             <mapsource name='Tableau' />
           </mapsources>
           <datasource-dependencies datasource='Parameters'>
-            <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_Age&quot;'>
-              <calculation class='tableau' formula='&quot;Avg_Age&quot;' />
+            <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_AmtLiq&quot;'>
+              <calculation class='tableau' formula='&quot;Avg_AmtLiq&quot;' />
             </column>
           </datasource-dependencies>
           <datasource-dependencies datasource='federated.03y8dho0qzj4y1106hd6d08wty5w'>
@@ -433,8 +713,8 @@
         </view>
         <style>
           <style-rule element='axis'>
-            <encoding attr='space' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[Longitude (generated)]' field-type='quantitative' max='15873852.989761274' min='-9696840.8138443008' projection='EPSG:3857' range-type='fixed' scope='cols' type='space' />
-            <encoding attr='space' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[Latitude (generated)]' field-type='quantitative' max='9585127.6459708083' min='-7992038.8232111242' projection='EPSG:3857' range-type='fixed' scope='rows' type='space' />
+            <encoding attr='space' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[Longitude (generated)]' field-type='quantitative' max='11996878.748973954' min='-9565006.7500767484' projection='EPSG:3857' range-type='fixed' scope='cols' type='space' />
+            <encoding attr='space' class='0' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[Latitude (generated)]' field-type='quantitative' max='10621626.216930697' min='-4199905.5614840919' projection='EPSG:3857' range-type='fixed' scope='rows' type='space' />
           </style-rule>
           <style-rule element='mark'>
             <encoding attr='color' field='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' palette='orange_blue_white_diverging_10_0' reverse='true' type='interpolated' />
@@ -519,6 +799,172 @@
       </table>
       <simple-id uuid='{5AD9C188-BDDD-4D49-BCCC-B39EA9B6C025}' />
     </worksheet>
+    <worksheet name='Sheet 4'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run fontalignment='1' fontname='Tableau Semibold'>Product Affinity Heat Map</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='AdAnalysis2' name='federated.135jmn90wkbj6512nj8wh13eoyol' />
+          </datasources>
+          <datasource-dependencies datasource='federated.135jmn90wkbj6512nj8wh13eoyol'>
+            <column-instance column='[top_three_products]' derivation='Attribute' name='[attr:top_three_products:nk]' pivot='key' type='nominal' />
+            <column caption='Average Spending' datatype='real' name='[average_spending]' role='measure' type='quantitative' />
+            <column caption='Channel' datatype='string' name='[channel]' role='dimension' type='nominal' />
+            <column caption='Is Top Three Product' datatype='boolean' name='[is_top_three_product]' role='dimension' type='nominal' />
+            <column-instance column='[channel]' derivation='None' name='[none:channel:nk]' pivot='key' type='nominal' />
+            <column-instance column='[is_top_three_product]' derivation='None' name='[none:is_top_three_product:nk]' pivot='key' type='nominal' />
+            <column-instance column='[product_category]' derivation='None' name='[none:product_category:nk]' pivot='key' type='nominal' />
+            <column caption='Pct Diff From Global Avg' datatype='real' name='[pct_diff_from_global_avg]' role='measure' type='quantitative' />
+            <column caption='Product Category' datatype='string' name='[product_category]' role='dimension' type='nominal' />
+            <column-instance column='[average_spending]' derivation='Sum' name='[sum:average_spending:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[pct_diff_from_global_avg]' derivation='Sum' name='[sum:pct_diff_from_global_avg:qk]' pivot='key' type='quantitative' />
+            <column caption='Top Three Products' datatype='string' name='[top_three_products]' role='dimension' type='nominal' />
+          </datasource-dependencies>
+          <shelf-sorts>
+            <shelf-sort-v2 dimension-to-sort='[federated.135jmn90wkbj6512nj8wh13eoyol].[none:channel:nk]' direction='DESC' is-on-innermost-dimension='true' measure-to-sort-by='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' shelf='rows' />
+          </shelf-sorts>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='label'>
+            <format attr='text-format' field='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' value='c&quot;$&quot;#,##0.00;-&quot;$&quot;#,##0.00' />
+          </style-rule>
+          <style-rule element='mark'>
+            <encoding attr='color' field='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' palette='orange_blue_white_diverging_10_0' symmetric='false' type='interpolated' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' />
+              <lod column='[federated.135jmn90wkbj6512nj8wh13eoyol].[none:is_top_three_product:nk]' />
+              <tooltip column='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:pct_diff_from_global_avg:qk]' />
+              <tooltip column='[federated.135jmn90wkbj6512nj8wh13eoyol].[attr:top_three_products:nk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run bold='true' fontcolor='#787878'>Channel:</run>
+                <run fontcolor='#787878'>Æ&#9;</run>
+                <run bold='true'><![CDATA[<[federated.135jmn90wkbj6512nj8wh13eoyol].[none:channel:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run bold='true' fontcolor='#787878'>Product Category:</run>
+                <run fontcolor='#787878'>Æ&#9;</run>
+                <run bold='true'><![CDATA[<[federated.135jmn90wkbj6512nj8wh13eoyol].[none:product_category:nk]>]]></run>
+                <run>Æ&#10;</run>
+                <run bold='true' fontcolor='#787878'>Average Spending:</run>
+                <run fontcolor='#787878'>Æ&#9;</run>
+                <run bold='true'><![CDATA[<[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]>$]]></run>
+                <run>Æ&#10;</run>
+                <run bold='true' fontcolor='#898989'>vs Global Average:</run>
+                <run bold='true'><![CDATA[	<[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:pct_diff_from_global_avg:qk]>%]]></run>
+                <run fontalignment='1'>Æ&#10;&#10;</run>
+                <run bold='true' fontalignment='1' fontcolor='#898989'>Top Three Products: </run>
+                <run fontalignment='1'>Æ&#10;</run>
+                <run bold='true' fontalignment='1'><![CDATA[<[federated.135jmn90wkbj6512nj8wh13eoyol].[attr:top_three_products:nk]>]]></run>
+                <run fontalignment='1'>Æ&#10;</run>
+                <run>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='mark'>
+                <format attr='size' value='1.5645185708999634' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.135jmn90wkbj6512nj8wh13eoyol].[none:channel:nk]</rows>
+        <cols>[federated.135jmn90wkbj6512nj8wh13eoyol].[none:product_category:nk]</cols>
+      </table>
+      <simple-id uuid='{1456CC7D-DC88-4DEF-B3FF-BC9BB728C1BA}' />
+    </worksheet>
+    <worksheet name='Sheet 5'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run fontalignment='1' fontcolor='#000000' fontname='Tableau Semibold'>Product Distribution by Channel</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='AdAnalysis2' name='federated.135jmn90wkbj6512nj8wh13eoyol' />
+          </datasources>
+          <datasource-dependencies datasource='federated.135jmn90wkbj6512nj8wh13eoyol'>
+            <column caption='Average Spending' datatype='real' name='[average_spending]' role='measure' type='quantitative' />
+            <column caption='Channel' datatype='string' name='[channel]' role='dimension' type='nominal' />
+            <column-instance column='[channel]' derivation='None' name='[none:channel:nk]' pivot='key' type='nominal' />
+            <column-instance column='[product_category]' derivation='None' name='[none:product_category:nk]' pivot='key' type='nominal' />
+            <column caption='Product Category' datatype='string' name='[product_category]' role='dimension' type='nominal' />
+            <column-instance column='[average_spending]' derivation='Sum' name='[sum:average_spending:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <computed-sort column='[federated.135jmn90wkbj6512nj8wh13eoyol].[none:channel:nk]' direction='ASC' using='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' />
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='refline'>
+            <format attr='fill-above' id='refline0' value='#00000000' />
+            <format attr='fill-below' id='refline0' value='#00000000' />
+            <format attr='line-visibility' id='refline0' value='on' />
+            <format attr='line-pattern-only' id='refline0' value='dashed' />
+            <format attr='stroke-color' id='refline0' value='#d64b4de7' />
+            <format attr='font-family' id='refline0' value='Tableau Semibold' />
+            <format attr='font-weight' id='refline0' value='bold' />
+            <format attr='font-size' id='refline0' value='12' />
+            <format attr='stroke-size' id='refline0' value='2' />
+            <format attr='text-format' id='refline0' value='n#,##0.00;-#,##0.00' />
+            <format attr='vertical-align' id='refline0' value='top' />
+            <format attr='wrap' id='refline0' value='on' />
+            <format attr='text-align' id='refline0' value='left' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.135jmn90wkbj6512nj8wh13eoyol].[none:product_category:nk]' />
+            </encodings>
+            <reference-line axis-column='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' enable-instant-analytics='true' formula='average' id='refline0' label='Global Average' label-type='custom' probability='95' scope='per-table' value-column='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' z-order='1' />
+          </pane>
+        </panes>
+        <rows>[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]</rows>
+        <cols>[federated.135jmn90wkbj6512nj8wh13eoyol].[none:channel:nk]</cols>
+      </table>
+      <simple-id uuid='{70F41AF2-9F68-4441-8389-7FBA13801E90}' />
+    </worksheet>
+    <worksheet name='Sheet 6'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+      <simple-id uuid='{4CBF9106-9C01-40C4-B0B9-6FA153C392F3}' />
+    </worksheet>
   </worksheets>
   <dashboards>
     <dashboard enable-sort-zone-taborder='true' name='Demographic Analysis'>
@@ -551,8 +997,8 @@
         <datasource name='Parameters' />
       </datasources>
       <datasource-dependencies datasource='Parameters'>
-        <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_Age&quot;'>
-          <calculation class='tableau' formula='&quot;Avg_Age&quot;' />
+        <column caption='Selected Metric' datatype='string' name='[Parameter 1]' param-domain-type='list' role='measure' type='nominal' value='&quot;Avg_AmtLiq&quot;'>
+          <calculation class='tableau' formula='&quot;Avg_AmtLiq&quot;' />
           <members>
             <member value='&quot;Avg_Age&quot;' />
             <member value='&quot;Avg_AmtChocolates&quot;' />
@@ -636,10 +1082,64 @@
       </zones>
       <devicelayouts>
         <devicelayout auto-generated='true' name='Phone'>
-          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <layout-options>
+            <title>
+              <formatted-text>
+                <run fontalignment='1' fontcolor='#f0fbff' fontname='Britannic Bold' fontsize='26'>&lt;Sheet Name&gt;</run>
+              </formatted-text>
+            </title>
+          </layout-options>
+          <size maxheight='800' minheight='800' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='6' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98222' id='5' param='vert' type-v2='layout-flow' w='99000' x='500' y='889' />
+            <zone h='100000' id='19' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98222' id='18' param='vert' type-v2='layout-flow' w='99000' x='500' y='889'>
+                <zone h='12444' id='17' type-v2='title' w='99000' x='500' y='889'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='85778' id='7' is-fixed='true' name='DemogsByCountryBar' w='28000' x='500' y='13333'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='31' h='4333' id='12' name='DemogsByCountryBar' pane-specification-id='0' param='[federated.03y8dho0qzj4y1106hd6d08wty5w].[sum:Calculation_1344324489445281793:qk]' show-title='false' type-v2='color' w='71000' x='28500' y='16889'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='24' h='3556' id='14' mode='compact' param='[Parameters].[Parameter 1]' show-title='false' type-v2='paramctrl' w='71000' x='28500' y='13333'>
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+                <zone fixed-size='280' h='77889' id='13' is-fixed='true' name='DemogsByCountryMap' show-title='false' w='71000' x='28500' y='21222'>
+                  <layout-cache has-max-size-h='true' has-max-size-w='true' maxheight='819' maxwidth='1191' minheight='819' minwidth='1191' type-h='scalable' type-w='scalable' />
+                  <zone-style>
+                    <format attr='border-color' value='#000000' />
+                    <format attr='border-style' value='none' />
+                    <format attr='border-width' value='0' />
+                    <format attr='margin' value='4' />
+                    <format attr='padding' value='0' />
+                  </zone-style>
+                </zone>
+              </zone>
               <zone-style>
                 <format attr='border-color' value='#000000' />
                 <format attr='border-style' value='none' />
@@ -653,8 +1153,8 @@
       <simple-id uuid='{294770FA-3062-48D3-B8A4-6926A4B49B85}' />
     </dashboard>
   </dashboards>
-  <windows saved-dpi-scale-factor='1.25' source-height='63'>
-    <window class='worksheet' maximized='true' name='DemogsByCountryMap'>
+  <windows source-height='72'>
+    <window class='worksheet' name='DemogsByCountryMap'>
       <cards>
         <edge name='left'>
           <strip size='160'>
@@ -723,10 +1223,10 @@
           <default-map-unit-selection mapunit='1' />
         </viewpoint>
       </viewpoints>
-      <active id='13' />
+      <active id='14' />
       <simple-id uuid='{A310568D-DAF5-4A5F-ADBF-B3873A85221B}' />
     </window>
-    <window class='worksheet' name='AdConversion'>
+    <window class='worksheet' maximized='true' name='AdConversion'>
       <cards>
         <edge name='left'>
           <strip size='300'>
@@ -747,9 +1247,8 @@
           </strip>
         </edge>
         <edge name='right'>
-          <strip size='160'>
-            <card pane-specification-id='0' param='[federated.0okywbt0mrmrfe124v0b00xm3wy3].[none:channel:nk]' type='color' />
-            <card looped='1' type='currpage' />
+          <strip size='300'>
+            <card pane-specification-id='0' param='[federated.1rkdaee109akql1dyw2z21soqryz].[none:channel:nk]' type='color' />
           </strip>
         </edge>
       </cards>
@@ -757,6 +1256,91 @@
         <zoom type='entire-view' />
       </viewpoint>
       <simple-id uuid='{7EC32C0A-9236-4FC3-8C6B-9D0973FFC6CF}' />
+    </window>
+    <window class='worksheet' name='Sheet 4'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.135jmn90wkbj6512nj8wh13eoyol].[sum:average_spending:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+      </viewpoint>
+      <simple-id uuid='{F294E264-ACB9-4143-A7A7-8AB99A8C4866}' />
+    </window>
+    <window class='worksheet' name='Sheet 5'>
+      <cards>
+        <edge name='left'>
+          <strip size='300'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='300'>
+            <card pane-specification-id='0' param='[federated.135jmn90wkbj6512nj8wh13eoyol].[none:product_category:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <viewpoint>
+        <zoom type='entire-view' />
+      </viewpoint>
+      <simple-id uuid='{21A60DEC-044A-4243-B1D1-C0DF2E3DA5C1}' />
+    </window>
+    <window class='worksheet' name='Sheet 6'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{307209C6-2239-44A7-83F7-E113038A8AE9}' />
     </window>
   </windows>
   <datagraph>

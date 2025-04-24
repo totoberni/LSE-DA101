@@ -174,9 +174,10 @@ SELECT
 FROM conversion_percentages;
 
 -- Create the product affinity analysis view
-DROP VIEW IF EXISTS ad_channel_product_affinity CASCADE;
+-- Create a long-format view for Tableau visualization
+DROP VIEW IF EXISTS ad_channel_product_affinity_tableau CASCADE;
 
-CREATE OR REPLACE VIEW ad_channel_product_affinity AS
+CREATE OR REPLACE VIEW ad_channel_product_affinity_tableau AS
 WITH 
 -- Calculate product affinities by channel
 product_by_channel AS (
@@ -275,7 +276,18 @@ product_by_channel AS (
         ROUND(AVG(AmtComm)::numeric, 2) AS Avg_AmtComm
     FROM customer_data_combined
 ),
--- Calculate top 3 products by channel with formatting
+-- Calculate channel display order for consistent sorting
+channel_order AS (
+    SELECT 
+        Channel,
+        CASE 
+            WHEN Channel = 'All Customers' THEN 1
+            WHEN Channel = 'No Channel' THEN 2
+            ELSE 3
+        END AS Sort_Order
+    FROM product_by_channel
+),
+-- Calculate top 3 products by channel with formatting (keeping for reference)
 top_products_by_channel AS (
     SELECT
         Channel,
@@ -320,28 +332,181 @@ top_products_by_channel AS (
          ) ranked_products
         ) AS Top_Three_Products
     FROM product_by_channel
+),
+-- Get channel product rankings (for tooltips and analysis)
+product_rankings AS (
+    SELECT 
+        Channel,
+        'Alcohol' AS Product,
+        Avg_AmtLiq AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtLiq DESC) AS Rank
+    FROM product_by_channel
+    
+    UNION ALL
+    
+    SELECT 
+        Channel,
+        'Vegetables' AS Product,
+        Avg_AmtVege AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtVege DESC) AS Rank
+    FROM product_by_channel
+    
+    UNION ALL
+    
+    SELECT 
+        Channel,
+        'Meat' AS Product,
+        Avg_AmtNonVeg AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtNonVeg DESC) AS Rank
+    FROM product_by_channel
+    
+    UNION ALL
+    
+    SELECT 
+        Channel,
+        'Fish' AS Product,
+        Avg_AmtPes AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtPes DESC) AS Rank
+    FROM product_by_channel
+    
+    UNION ALL
+    
+    SELECT 
+        Channel,
+        'Chocolates' AS Product,
+        Avg_AmtChocolates AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtChocolates DESC) AS Rank
+    FROM product_by_channel
+    
+    UNION ALL
+    
+    SELECT 
+        Channel,
+        'Commodities' AS Product,
+        Avg_AmtComm AS Amount,
+        RANK() OVER(PARTITION BY Channel ORDER BY Avg_AmtComm DESC) AS Rank
+    FROM product_by_channel
+),
+-- Convert to long format for Tableau
+long_format AS (
+    -- Alcohol spending by channel
+    SELECT
+        p.Channel,
+        'Alcohol' AS Product_Category,
+        p.Avg_AmtLiq AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Alcohol'
+    
+    UNION ALL
+    
+    -- Vegetables spending by channel
+    SELECT
+        p.Channel,
+        'Vegetables' AS Product_Category,
+        p.Avg_AmtVege AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Vegetables'
+    
+    UNION ALL
+    
+    -- Meat spending by channel
+    SELECT
+        p.Channel,
+        'Meat' AS Product_Category,
+        p.Avg_AmtNonVeg AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Meat'
+    
+    UNION ALL
+    
+    -- Fish spending by channel
+    SELECT
+        p.Channel,
+        'Fish' AS Product_Category,
+        p.Avg_AmtPes AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Fish'
+    
+    UNION ALL
+    
+    -- Chocolates spending by channel
+    SELECT
+        p.Channel,
+        'Chocolates' AS Product_Category,
+        p.Avg_AmtChocolates AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Chocolates'
+    
+    UNION ALL
+    
+    -- Commodities spending by channel
+    SELECT
+        p.Channel,
+        'Commodities' AS Product_Category,
+        p.Avg_AmtComm AS Average_Spending,
+        r.Rank AS Product_Rank,
+        o.Sort_Order,
+        t.Top_Three_Products
+    FROM product_by_channel p
+    JOIN channel_order o ON p.Channel = o.Channel
+    JOIN top_products_by_channel t ON p.Channel = t.Channel
+    JOIN product_rankings r ON p.Channel = r.Channel AND r.Product = 'Commodities'
 )
--- Final product affinity table
+-- Final Tableau view with all needed metrics
 SELECT
-    p.Channel,
-    p.Avg_AmtLiq,
-    p.Avg_AmtVege,
-    p.Avg_AmtNonVeg,
-    p.Avg_AmtPes,
-    p.Avg_AmtChocolates,
-    p.Avg_AmtComm,
-    t.Top_Three_Products
+    Channel,
+    Product_Category,
+    Average_Spending,
+    CASE WHEN Product_Rank <= 3 THEN TRUE ELSE FALSE END AS Is_Top_Three_Product,
+    Product_Rank,
+    Top_Three_Products,
+    -- Calculate global average (All Customers) for each product
+    FIRST_VALUE(Average_Spending) OVER (
+        PARTITION BY Product_Category 
+        ORDER BY CASE WHEN Channel = 'All Customers' THEN 0 ELSE 1 END
+    ) AS Global_Average,
+    -- Calculate percentage difference from global average
+    ROUND(
+        (Average_Spending - FIRST_VALUE(Average_Spending) OVER (
+            PARTITION BY Product_Category 
+            ORDER BY CASE WHEN Channel = 'All Customers' THEN 0 ELSE 1 END
+        )) / NULLIF(FIRST_VALUE(Average_Spending) OVER (
+            PARTITION BY Product_Category 
+            ORDER BY CASE WHEN Channel = 'All Customers' THEN 0 ELSE 1 END
+        ), 0) * 100,
+        2
+    ) AS Pct_Diff_From_Global_Avg
 FROM 
-    product_by_channel p
-JOIN
-    top_products_by_channel t ON p.Channel = t.Channel
+    long_format
 ORDER BY 
-    CASE 
-        WHEN p.Channel = 'All Customers' THEN 1
-        WHEN p.Channel = 'No Channel' THEN 2
-        ELSE 3
-    END,
-    p.Channel;
+    Sort_Order,
+    Channel,
+    Average_Spending DESC;
 
 -- ========================================================================
 -- Table 2: Revenue Analysis by Channel
@@ -747,7 +912,7 @@ SELECT * FROM ad_channel_conversion_analysis;
 SELECT * FROM miao;
 
 -- View product affinity results
-SELECT * FROM ad_channel_product_affinity;
+SELECT * FROM ad_channel_product_affinity_tableau;
 
 -- View the revenue analysis results
 SELECT * FROM ad_channel_revenue_analysis;
