@@ -1,5 +1,5 @@
 -- ========================================================================
--- Table 1: Ad Channel Conversion Analysis
+-- View  1: Ad Channel Conversion Analysis
 -- ========================================================================
 DROP VIEW IF EXISTS ad_channel_conversion_analysis CASCADE;
 
@@ -509,7 +509,7 @@ ORDER BY
     Average_Spending DESC;
 
 -- ========================================================================
--- Table 2: Revenue Analysis by Channel
+-- View 2: Revenue Analysis by Channel
 -- ========================================================================
 DROP VIEW IF EXISTS ad_channel_revenue_analysis CASCADE;
 
@@ -644,11 +644,10 @@ ORDER BY
     END,
     Channel_Total_Revenue DESC;
 
-	-- ========================================================================
--- Table 3: Customer Behavior Analysis by Channel
+-- ========================================================================
+-- View 3: Customer Behavior Analysis by Channel
 -- ========================================================================
 DROP VIEW IF EXISTS ad_channel_behavior_analysis CASCADE;
-
 CREATE OR REPLACE VIEW ad_channel_behavior_analysis AS
 WITH 
 -- Calculate behavior metrics by channel
@@ -812,7 +811,7 @@ ORDER BY
     END,
     c.Avg_Purchase_Frequency DESC;
 
-CREATE OR REPLACE VIEW miao AS
+CREATE OR REPLACE VIEW ad_channel_conversion_analysis_tableau AS
 WITH global_rates AS (
     SELECT
         'bulkmail_ad' AS channel,
@@ -902,14 +901,83 @@ FROM
 JOIN
     share_rates s ON g.channel = s.channel;
 
+DROP VIEW IF EXISTS ad_channel_behavior_analysis_tableau CASCADE;
+CREATE OR REPLACE VIEW ad_channel_behavior_analysis_tableau AS
+-- Convert wide format to long format for Tableau
+SELECT
+    channel,
+    'Purchase Frequency' AS metric,
+    avg_purchase_frequency AS avg_value,
+    rel_purchase_frequency AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'Store Visits' AS metric,
+    avg_numvisits AS avg_value,
+    rel_numvisits AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'Web Purchases' AS metric,
+    avg_numwebbuy AS avg_value,
+    rel_numwebbuy AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'Deals Used' AS metric,
+    avg_numdeals AS avg_value,
+    rel_numdeals AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'Campaign Response' AS metric,
+    avg_response AS avg_value,
+    rel_response AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'In-Store Purchases' AS metric,
+    avg_numwalkinpur AS avg_value,
+    rel_numwalkinpur AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis
+
+UNION ALL
+
+SELECT
+    channel,
+    'Complaints' AS metric,
+    avg_complain AS avg_value,
+    rel_complain AS rel_value,
+    customer_count
+FROM ad_channel_behavior_analysis;
+
 -- ========================================================================
 -- Sample queries to test the views (and the vibes)
 -- ========================================================================
-
 -- View the conversion analysis results
 SELECT * FROM ad_channel_conversion_analysis;
-
-SELECT * FROM miao;
+SELECT * FROM ad_channel_conversion_analysis_tableau;
 
 -- View product affinity results
 SELECT * FROM ad_channel_product_affinity_tableau;
@@ -919,3 +987,4 @@ SELECT * FROM ad_channel_revenue_analysis;
 
 -- View the behavior analysis results
 SELECT * FROM ad_channel_behavior_analysis;
+SELECT * FROM ad_channel_behavior_analysis_tableau;

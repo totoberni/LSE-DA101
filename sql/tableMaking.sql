@@ -40,3 +40,6 @@ CREATE TABLE IF NOT EXISTS ad_data (
     Brochure_ad INTEGER
 );
 
+-- Show tables 
+SELECT * FROM ad_data;
+SELECT * FROM marketing_data;

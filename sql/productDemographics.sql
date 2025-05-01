@@ -1,8 +1,7 @@
 -- ========================================================================
 -- Product Sales by Demographics Analysis
 -- ========================================================================
-
--- First, let's create a helper view for product rankings to reuse across tables
+-- Helper view for product rankings (reused across tables)
 DROP VIEW IF EXISTS product_rankings CASCADE;
 
 CREATE OR REPLACE VIEW product_rankings AS
@@ -42,175 +41,9 @@ FROM product_avg_spending
 ORDER BY Avg_Spending DESC;
 
 -- ========================================================================
--- Table 1: Product Analysis by Country
--- ========================================================================
-DROP VIEW IF EXISTS product_analysis_by_country CASCADE;
-
-CREATE OR REPLACE VIEW product_analysis_by_country AS
-WITH 
--- Get country list
-country_list AS (
-    SELECT DISTINCT Country
-    FROM customer_data_combined
-    ORDER BY Country
-),
--- Calculate global averages
-global_metrics AS (
-    SELECT
-        ROUND(AVG(AmtLiq + AmtVege + AmtNonVeg + AmtPes + AmtChocolates + AmtComm)::numeric, 2) AS Avg_Total_Spending,
-        ROUND(AVG(CASE WHEN Recency = 0 THEN 1 ELSE 1.0/Recency END)::numeric, 4) AS Avg_Purchase_Frequency,
-        ROUND(AVG(Complain)::numeric, 4) AS Avg_Complain_Rate,
-        ROUND(AVG(Response)::numeric, 4) AS Avg_Response_Rate
-    FROM customer_data_combined
-),
--- Get top 5 products
-top_products AS (
-    SELECT Product, Avg_Spending
-    FROM product_rankings
-    LIMIT 5
-),
--- Calculate metrics by country
-country_metrics AS (
-    SELECT
-        Country,
-        ROUND(AVG(AmtLiq + AmtVege + AmtNonVeg + AmtPes + AmtChocolates + AmtComm)::numeric, 2) AS Avg_Total_Spending,
-        ROUND(AVG(AmtLiq)::numeric, 2) AS Avg_AmtLiq,
-        ROUND(AVG(AmtVege)::numeric, 2) AS Avg_AmtVege,
-        ROUND(AVG(AmtNonVeg)::numeric, 2) AS Avg_AmtNonVeg,
-        ROUND(AVG(AmtPes)::numeric, 2) AS Avg_AmtPes,
-        ROUND(AVG(AmtChocolates)::numeric, 2) AS Avg_AmtChocolates,
-        ROUND(AVG(AmtComm)::numeric, 2) AS Avg_AmtComm,
-        ROUND(AVG(CASE WHEN Recency = 0 THEN 1 ELSE 1.0/Recency END)::numeric, 4) AS Avg_Purchase_Frequency,
-        ROUND(AVG(Complain)::numeric, 4) AS Avg_Complain_Rate,
-        ROUND(AVG(Response)::numeric, 4) AS Avg_Response_Rate
-    FROM customer_data_combined
-    GROUP BY Country
-)
--- Build the final pivot table
-SELECT
-    'Global Average Total Spending' AS Metric,
-    (SELECT Avg_Total_Spending FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Total_Spending::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Total_Spending::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Total_Spending::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Total_Spending::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Total_Spending::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Total_Spending::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Total_Spending::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Total_Spending::text ELSE NULL END) AS US
-FROM country_metrics
-
-UNION ALL
-
-SELECT
-    CASE
-        WHEN t.rn = 1 THEN 'Top Product: ' || t.Product
-        ELSE 'Top ' || t.rn::text || ' Product: ' || t.Product
-    END AS Metric,
-    t.Avg_Spending::text AS Global,
-    MAX(CASE WHEN pc.product_country = 'AUS' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN pc.product_country = 'CA' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN pc.product_country = 'GER' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN pc.product_country = 'IND' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN pc.product_country = 'ME' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN pc.product_country = 'SA' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN pc.product_country = 'SP' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN pc.product_country = 'US' AND pc.product_name = t.Product THEN pc.product_spending::text ELSE NULL END) AS US
-FROM (
-    SELECT 
-        Product, 
-        Avg_Spending, 
-        ROW_NUMBER() OVER (ORDER BY Avg_Spending DESC) AS rn
-    FROM top_products
-) t
-CROSS JOIN (
-    SELECT 
-        Country AS product_country,
-        'Alcohol' AS product_name,
-        Avg_AmtLiq AS product_spending
-    FROM country_metrics
-    UNION ALL
-    SELECT 
-        Country AS product_country,
-        'Vegetables' AS product_name,
-        Avg_AmtVege AS product_spending
-    FROM country_metrics
-    UNION ALL
-    SELECT 
-        Country AS product_country,
-        'Meat' AS product_name,
-        Avg_AmtNonVeg AS product_spending
-    FROM country_metrics
-    UNION ALL
-    SELECT 
-        Country AS product_country,
-        'Fish' AS product_name,
-        Avg_AmtPes AS product_spending
-    FROM country_metrics
-    UNION ALL
-    SELECT 
-        Country AS product_country,
-        'Chocolates' AS product_name,
-        Avg_AmtChocolates AS product_spending
-    FROM country_metrics
-    UNION ALL
-    SELECT 
-        Country AS product_country,
-        'Commodities' AS product_name,
-        Avg_AmtComm AS product_spending
-    FROM country_metrics
-) pc GROUP BY t.Product, t.Avg_Spending, t.rn
-
-UNION ALL
-
-SELECT
-    'Average Purchase Frequency' AS Metric,
-    (SELECT Avg_Purchase_Frequency FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Purchase_Frequency::text ELSE NULL END) AS US
-FROM country_metrics
-
-UNION ALL
-
-SELECT
-    'Average Complaint Rate' AS Metric,
-    (SELECT Avg_Complain_Rate FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Complain_Rate::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Complain_Rate::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Complain_Rate::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Complain_Rate::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Complain_Rate::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Complain_Rate::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Complain_Rate::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Complain_Rate::text ELSE NULL END) AS US
-FROM country_metrics
-
-UNION ALL
-
-SELECT
-    'Average Response Rate' AS Metric,
-    (SELECT Avg_Response_Rate FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Country = 'AUS' THEN Avg_Response_Rate::text ELSE NULL END) AS AUS,
-    MAX(CASE WHEN Country = 'CA' THEN Avg_Response_Rate::text ELSE NULL END) AS CA,
-    MAX(CASE WHEN Country = 'GER' THEN Avg_Response_Rate::text ELSE NULL END) AS GER,
-    MAX(CASE WHEN Country = 'IND' THEN Avg_Response_Rate::text ELSE NULL END) AS IND,
-    MAX(CASE WHEN Country = 'ME' THEN Avg_Response_Rate::text ELSE NULL END) AS ME,
-    MAX(CASE WHEN Country = 'SA' THEN Avg_Response_Rate::text ELSE NULL END) AS SA,
-    MAX(CASE WHEN Country = 'SP' THEN Avg_Response_Rate::text ELSE NULL END) AS SP,
-    MAX(CASE WHEN Country = 'US' THEN Avg_Response_Rate::text ELSE NULL END) AS US
-FROM country_metrics;
-
--- ========================================================================
--- Table 2: Product Analysis by Age Group
+-- View 1: Product Analysis by Age Group
 -- ========================================================================
 DROP VIEW IF EXISTS product_analysis_by_age_group CASCADE;
-
 CREATE OR REPLACE VIEW product_analysis_by_age_group AS
 WITH 
 -- Create equal-sized age brackets using NTILE
@@ -391,10 +224,89 @@ SELECT
 FROM age_group_metrics;
 
 -- ========================================================================
--- Table 3: Product Analysis by Family Size
+-- 1. Specialized Tableau View
+-- ========================================================================
+DROP VIEW IF EXISTS product_analysis_by_age_group_tableau CASCADE;
+CREATE OR REPLACE VIEW product_analysis_by_age_group_tableau AS
+WITH age_group_data AS (
+    -- Unpivot the original data for Tableau-friendly format
+    SELECT 
+        Metric, 'Global' AS Age_Group, Global AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Global IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 1' AS Age_Group, Age_Group_1 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_1 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 2' AS Age_Group, Age_Group_2 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_2 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 3' AS Age_Group, Age_Group_3 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_3 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 4' AS Age_Group, Age_Group_4 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_4 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 5' AS Age_Group, Age_Group_5 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_5 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Age Group 6' AS Age_Group, Age_Group_6 AS Value_Text 
+    FROM product_analysis_by_age_group WHERE Age_Group_6 IS NOT NULL
+)
+SELECT
+    Metric,
+    Age_Group,
+    Value_Text::numeric AS Value,
+    -- Add derived columns for better filtering and visualization
+    CASE 
+        WHEN Metric LIKE 'Global Average%' THEN 'Total Spending'
+        WHEN Metric LIKE 'Top%' THEN 'Product Spending'
+        WHEN Metric LIKE 'Average Purchase%' THEN 'Purchase Behavior'
+        WHEN Metric LIKE 'Average Complain%' THEN 'Customer Satisfaction'
+        WHEN Metric LIKE 'Average Response%' THEN 'Customer Engagement'
+        ELSE 'Other'
+    END AS Metric_Category,
+    -- Extract product name for product-specific analysis
+    CASE 
+        WHEN Metric LIKE 'Top%: %' THEN 
+            SUBSTRING(Metric FROM POSITION(': ' IN Metric) + 2)
+        ELSE NULL
+    END AS Product_Name,
+    -- Extract ranking for sorting
+    CASE 
+        WHEN Metric LIKE 'Top Product:%' THEN 1
+        WHEN Metric LIKE 'Top 2 Product:%' THEN 2
+        WHEN Metric LIKE 'Top 3 Product:%' THEN 3
+        WHEN Metric LIKE 'Top 4 Product:%' THEN 4
+        WHEN Metric LIKE 'Top 5 Product:%' THEN 5
+        ELSE NULL
+    END AS Product_Rank,
+    -- Add numeric ordering for age groups
+    CASE
+        WHEN Age_Group = 'Global' THEN 0
+        WHEN Age_Group = 'Age Group 1' THEN 1
+        WHEN Age_Group = 'Age Group 2' THEN 2
+        WHEN Age_Group = 'Age Group 3' THEN 3
+        WHEN Age_Group = 'Age Group 4' THEN 4
+        WHEN Age_Group = 'Age Group 5' THEN 5
+        WHEN Age_Group = 'Age Group 6' THEN 6
+    END AS Age_Group_Order
+FROM age_group_data;
+-- ========================================================================
+-- View 2: Product Analysis by Family Size
 -- ========================================================================
 DROP VIEW IF EXISTS product_analysis_by_family_size CASCADE;
-
 CREATE OR REPLACE VIEW product_analysis_by_family_size AS
 WITH 
 -- Calculate family size
@@ -550,9 +462,83 @@ SELECT
     MAX(CASE WHEN Family_Size_Group = '4' THEN Avg_Response_Rate::text ELSE NULL END) AS "Family_Size_4",
     MAX(CASE WHEN Family_Size_Group = '5' THEN Avg_Response_Rate::text ELSE NULL END) AS "Family_Size_5"
 FROM family_size_metrics;
+-- ========================================================================
+-- 2. Specialized Tableau View
+-- ========================================================================
+DROP VIEW IF EXISTS product_analysis_by_family_size_tableau CASCADE;
+CREATE OR REPLACE VIEW product_analysis_by_family_size_tableau AS
+WITH family_size_data AS (
+    -- Unpivot the original data for Tableau-friendly format
+    SELECT 
+        Metric, 'Global' AS Family_Size, Global AS Value_Text 
+    FROM product_analysis_by_family_size WHERE Global IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Family Size 1' AS Family_Size, "Family_Size_1" AS Value_Text 
+    FROM product_analysis_by_family_size WHERE "Family_Size_1" IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Family Size 2' AS Family_Size, "Family_Size_2" AS Value_Text 
+    FROM product_analysis_by_family_size WHERE "Family_Size_2" IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Family Size 3' AS Family_Size, "Family_Size_3" AS Value_Text 
+    FROM product_analysis_by_family_size WHERE "Family_Size_3" IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Family Size 4' AS Family_Size, "Family_Size_4" AS Value_Text 
+    FROM product_analysis_by_family_size WHERE "Family_Size_4" IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Family Size 5' AS Family_Size, "Family_Size_5" AS Value_Text 
+    FROM product_analysis_by_family_size WHERE "Family_Size_5" IS NOT NULL
+)
+SELECT
+    Metric,
+    Family_Size,
+    Value_Text::numeric AS Value,
+    -- Add derived columns for better filtering and visualization
+    CASE 
+        WHEN Metric LIKE 'Global Average%' THEN 'Total Spending'
+        WHEN Metric LIKE 'Top%' THEN 'Product Spending'
+        WHEN Metric LIKE 'Average Purchase%' THEN 'Purchase Behavior'
+        WHEN Metric LIKE 'Average Complain%' THEN 'Customer Satisfaction'
+        WHEN Metric LIKE 'Average Response%' THEN 'Customer Engagement'
+        ELSE 'Other'
+    END AS Metric_Category,
+    -- Extract product name for product-specific analysis
+    CASE 
+        WHEN Metric LIKE 'Top%: %' THEN 
+            SUBSTRING(Metric FROM POSITION(': ' IN Metric) + 2)
+        ELSE NULL
+    END AS Product_Name,
+    -- Extract ranking for sorting
+    CASE 
+        WHEN Metric LIKE 'Top Product:%' THEN 1
+        WHEN Metric LIKE 'Top 2 Product:%' THEN 2
+        WHEN Metric LIKE 'Top 3 Product:%' THEN 3
+        WHEN Metric LIKE 'Top 4 Product:%' THEN 4
+        WHEN Metric LIKE 'Top 5 Product:%' THEN 5
+        ELSE NULL
+    END AS Product_Rank,
+    -- Add numeric ordering for family sizes
+    CASE
+        WHEN Family_Size = 'Global' THEN 0
+        WHEN Family_Size = 'Family Size 1' THEN 1
+        WHEN Family_Size = 'Family Size 2' THEN 2
+        WHEN Family_Size = 'Family Size 3' THEN 3
+        WHEN Family_Size = 'Family Size 4' THEN 4
+        WHEN Family_Size = 'Family Size 5' THEN 5
+    END AS Family_Size_Order
+FROM family_size_data;
 
 -- ========================================================================
--- Table 4: Product Analysis by Income Bracket
+-- View 3: Product Analysis by Income Bracket
 -- ========================================================================
 DROP VIEW IF EXISTS product_analysis_by_income CASCADE;
 
@@ -737,201 +723,91 @@ SELECT
 FROM income_metrics;
 
 -- ========================================================================
--- Table 5: Product Analysis by Education
+-- 3. Specialized Tableau View
 -- ========================================================================
-DROP VIEW IF EXISTS product_analysis_by_education CASCADE;
 
-CREATE OR REPLACE VIEW product_analysis_by_education AS
-WITH 
--- Calculate global averages
-global_metrics AS (
-    SELECT
-        ROUND(AVG(AmtLiq + AmtVege + AmtNonVeg + AmtPes + AmtChocolates + AmtComm)::numeric, 2) AS Avg_Total_Spending,
-        ROUND(AVG(CASE WHEN Recency = 0 THEN 1 ELSE 1.0/Recency END)::numeric, 4) AS Avg_Purchase_Frequency,
-        ROUND(AVG(Complain)::numeric, 4) AS Avg_Complain_Rate,
-        ROUND(AVG(Response)::numeric, 4) AS Avg_Response_Rate
-    FROM customer_data_combined
-),
--- Get top 5 products
-top_products AS (
-    SELECT Product, Avg_Spending
-    FROM product_rankings
-    LIMIT 5
-),
--- Get list of education levels
-education_list AS (
-    SELECT Education FROM (
-        SELECT DISTINCT Education,
-            CASE 
-                WHEN Education = 'Basic' THEN 1
-                WHEN Education = '2n Cycle' THEN 2
-                WHEN Education = 'Graduation' THEN 3
-                WHEN Education = 'Master' THEN 4
-                WHEN Education = 'PhD' THEN 5
-                ELSE 6
-            END AS education_order
-        FROM customer_data_combined
-    ) sub
-    ORDER BY education_order
-),
--- Calculate metrics by education level
-education_metrics AS (
-    SELECT
-        Education,
-        ROUND(AVG(AmtLiq + AmtVege + AmtNonVeg + AmtPes + AmtChocolates + AmtComm)::numeric, 2) AS Avg_Total_Spending,
-        ROUND(AVG(AmtLiq)::numeric, 2) AS Avg_AmtLiq,
-        ROUND(AVG(AmtVege)::numeric, 2) AS Avg_AmtVege,
-        ROUND(AVG(AmtNonVeg)::numeric, 2) AS Avg_AmtNonVeg,
-        ROUND(AVG(AmtPes)::numeric, 2) AS Avg_AmtPes,
-        ROUND(AVG(AmtChocolates)::numeric, 2) AS Avg_AmtChocolates,
-        ROUND(AVG(AmtComm)::numeric, 2) AS Avg_AmtComm,
-        ROUND(AVG(CASE WHEN Recency = 0 THEN 1 ELSE 1.0/Recency END)::numeric, 4) AS Avg_Purchase_Frequency,
-        ROUND(AVG(Complain)::numeric, 4) AS Avg_Complain_Rate,
-        ROUND(AVG(Response)::numeric, 4) AS Avg_Response_Rate
-    FROM customer_data_combined
-    GROUP BY Education
-    ORDER BY 
-        CASE 
-            WHEN Education = 'Basic' THEN 1
-            WHEN Education = '2n Cycle' THEN 2
-            WHEN Education = 'Graduation' THEN 3
-            WHEN Education = 'Master' THEN 4
-            WHEN Education = 'PhD' THEN 5
-            ELSE 6
-        END
+-- Income Analysis View for Tableau
+DROP VIEW IF EXISTS product_analysis_by_income_tableau CASCADE;
+
+CREATE OR REPLACE VIEW product_analysis_by_income_tableau AS
+WITH income_data AS (
+    -- Unpivot the original data for Tableau-friendly format
+    SELECT 
+        Metric, 'Global' AS Income_Bracket, Global AS Value_Text 
+    FROM product_analysis_by_income WHERE Global IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 1' AS Income_Bracket, income_bracket_1 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_1 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 2' AS Income_Bracket, income_bracket_2 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_2 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 3' AS Income_Bracket, income_bracket_3 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_3 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 4' AS Income_Bracket, income_bracket_4 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_4 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 5' AS Income_Bracket, income_bracket_5 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_5 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Income Bracket 6' AS Income_Bracket, income_bracket_6 AS Value_Text 
+    FROM product_analysis_by_income WHERE income_bracket_6 IS NOT NULL
 )
--- Build the final pivot table
 SELECT
-    'Global Average Total Spending' AS Metric,
-    (SELECT Avg_Total_Spending FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 0) 
-        THEN Avg_Total_Spending::text ELSE NULL END) AS Education_1,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 1) 
-        THEN Avg_Total_Spending::text ELSE NULL END) AS Education_2,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 2) 
-        THEN Avg_Total_Spending::text ELSE NULL END) AS Education_3,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 3) 
-        THEN Avg_Total_Spending::text ELSE NULL END) AS Education_4,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 4) 
-        THEN Avg_Total_Spending::text ELSE NULL END) AS Education_5
-FROM education_metrics
-
-UNION ALL
-
-SELECT
+    Metric,
+    Income_Bracket,
+    Value_Text::numeric AS Value,
+    -- Add derived columns for better filtering and visualization
+    CASE 
+        WHEN Metric LIKE 'Global Average%' THEN 'Total Spending'
+        WHEN Metric LIKE 'Top%' THEN 'Product Spending'
+        WHEN Metric LIKE 'Average Purchase%' THEN 'Purchase Behavior'
+        WHEN Metric LIKE 'Average Complain%' THEN 'Customer Satisfaction'
+        WHEN Metric LIKE 'Average Response%' THEN 'Customer Engagement'
+        ELSE 'Other'
+    END AS Metric_Category,
+    -- Extract product name for product-specific analysis
+    CASE 
+        WHEN Metric LIKE 'Top%: %' THEN 
+            SUBSTRING(Metric FROM POSITION(': ' IN Metric) + 2)
+        ELSE NULL
+    END AS Product_Name,
+    -- Extract ranking for sorting
+    CASE 
+        WHEN Metric LIKE 'Top Product:%' THEN 1
+        WHEN Metric LIKE 'Top 2 Product:%' THEN 2
+        WHEN Metric LIKE 'Top 3 Product:%' THEN 3
+        WHEN Metric LIKE 'Top 4 Product:%' THEN 4
+        WHEN Metric LIKE 'Top 5 Product:%' THEN 5
+        ELSE NULL
+    END AS Product_Rank,
+    -- Add numeric ordering for income brackets
     CASE
-        WHEN rn = 1 THEN 'Top Product: ' || Product
-        ELSE 'Top ' || rn::text || ' Product: ' || Product
-    END AS Metric,
-    Avg_Spending::text AS Global,
-    MAX(CASE WHEN product_education = (SELECT Education FROM education_list LIMIT 1 OFFSET 0) 
-        AND product_name = Product THEN product_spending::text ELSE NULL END) AS Education_1,
-    MAX(CASE WHEN product_education = (SELECT Education FROM education_list LIMIT 1 OFFSET 1) 
-        AND product_name = Product THEN product_spending::text ELSE NULL END) AS Education_2,
-    MAX(CASE WHEN product_education = (SELECT Education FROM education_list LIMIT 1 OFFSET 2) 
-        AND product_name = Product THEN product_spending::text ELSE NULL END) AS Education_3,
-    MAX(CASE WHEN product_education = (SELECT Education FROM education_list LIMIT 1 OFFSET 3) 
-        AND product_name = Product THEN product_spending::text ELSE NULL END) AS Education_4,
-    MAX(CASE WHEN product_education = (SELECT Education FROM education_list LIMIT 1 OFFSET 4) 
-        AND product_name = Product THEN product_spending::text ELSE NULL END) AS Education_5
-FROM (
-    SELECT 
-        Product, 
-        Avg_Spending, 
-        ROW_NUMBER() OVER (ORDER BY Avg_Spending DESC) AS rn
-    FROM top_products
-) t
-CROSS JOIN (
-    SELECT 
-        Education AS product_education,
-        'Alcohol' AS product_name,
-        Avg_AmtLiq AS product_spending
-    FROM education_metrics
-    UNION ALL
-    SELECT 
-        Education AS product_education,
-        'Vegetables' AS product_name,
-        Avg_AmtVege AS product_spending
-    FROM education_metrics
-    UNION ALL
-    SELECT 
-        Education AS product_education,
-        'Meat' AS product_name,
-        Avg_AmtNonVeg AS product_spending
-    FROM education_metrics
-    UNION ALL
-    SELECT 
-        Education AS product_education,
-        'Fish' AS product_name,
-        Avg_AmtPes AS product_spending
-    FROM education_metrics
-    UNION ALL
-    SELECT 
-        Education AS product_education,
-        'Chocolates' AS product_name,
-        Avg_AmtChocolates AS product_spending
-    FROM education_metrics
-    UNION ALL
-    SELECT 
-        Education AS product_education,
-        'Commodities' AS product_name,
-        Avg_AmtComm AS product_spending
-    FROM education_metrics
-) pc GROUP BY t.Product, t.Avg_Spending, t.rn
-
-UNION ALL
-
-SELECT
-    'Average Purchase Frequency' AS Metric,
-    (SELECT Avg_Purchase_Frequency FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 0) 
-        THEN Avg_Purchase_Frequency::text ELSE NULL END) AS Education_1,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 1) 
-        THEN Avg_Purchase_Frequency::text ELSE NULL END) AS Education_2,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 2) 
-        THEN Avg_Purchase_Frequency::text ELSE NULL END) AS Education_3,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 3) 
-        THEN Avg_Purchase_Frequency::text ELSE NULL END) AS Education_4,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 4) 
-        THEN Avg_Purchase_Frequency::text ELSE NULL END) AS Education_5
-FROM education_metrics
-
-UNION ALL
-
-SELECT
-    'Average Complaint Rate' AS Metric,
-    (SELECT Avg_Complain_Rate FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 0) 
-        THEN Avg_Complain_Rate::text ELSE NULL END) AS Education_1,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 1) 
-        THEN Avg_Complain_Rate::text ELSE NULL END) AS Education_2,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 2) 
-        THEN Avg_Complain_Rate::text ELSE NULL END) AS Education_3,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 3) 
-        THEN Avg_Complain_Rate::text ELSE NULL END) AS Education_4,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 4) 
-        THEN Avg_Complain_Rate::text ELSE NULL END) AS Education_5
-FROM education_metrics
-
-UNION ALL
-
-SELECT
-    'Average Response Rate' AS Metric,
-    (SELECT Avg_Response_Rate FROM global_metrics)::text AS Global,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 0) 
-        THEN Avg_Response_Rate::text ELSE NULL END) AS Education_1,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 1) 
-        THEN Avg_Response_Rate::text ELSE NULL END) AS Education_2,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 2) 
-        THEN Avg_Response_Rate::text ELSE NULL END) AS Education_3,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 3) 
-        THEN Avg_Response_Rate::text ELSE NULL END) AS Education_4,
-    MAX(CASE WHEN Education = (SELECT Education FROM education_list LIMIT 1 OFFSET 4) 
-        THEN Avg_Response_Rate::text ELSE NULL END) AS Education_5
-FROM education_metrics;
+        WHEN Income_Bracket = 'Global' THEN 0
+        WHEN Income_Bracket = 'Income Bracket 1' THEN 1
+        WHEN Income_Bracket = 'Income Bracket 2' THEN 2
+        WHEN Income_Bracket = 'Income Bracket 3' THEN 3
+        WHEN Income_Bracket = 'Income Bracket 4' THEN 4
+        WHEN Income_Bracket = 'Income Bracket 5' THEN 5
+        WHEN Income_Bracket = 'Income Bracket 6' THEN 6
+    END AS Income_Bracket_Order
+FROM income_data;
 
 -- ========================================================================
--- Table 6: Product Analysis by Customer Tenure
+-- Table 4: Product Analysis by Customer Tenure
 -- ========================================================================
 DROP VIEW IF EXISTS product_analysis_by_tenure CASCADE;
 
@@ -1148,10 +1024,88 @@ SELECT
         THEN Avg_Response_Rate::text ELSE NULL END) AS Tenure_Group_6
 FROM tenure_metrics;
 
+-- ========================================================================
+-- 4. Specialized Tableau View
+-- ========================================================================
+DROP VIEW IF EXISTS product_analysis_by_tenure_tableau CASCADE;
+CREATE OR REPLACE VIEW product_analysis_by_tenure_tableau AS
+WITH tenure_data AS (
+    -- Unpivot the original data for Tableau-friendly format
+    SELECT 
+        Metric, 'Global' AS Tenure_Group, Global AS Value_Text, 0 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Global IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 1' AS Tenure_Group, Tenure_Group_1 AS Value_Text, 1 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_1 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 2' AS Tenure_Group, Tenure_Group_2 AS Value_Text, 2 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_2 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 3' AS Tenure_Group, Tenure_Group_3 AS Value_Text, 3 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_3 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 4' AS Tenure_Group, Tenure_Group_4 AS Value_Text, 4 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_4 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 5' AS Tenure_Group, Tenure_Group_5 AS Value_Text, 5 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_5 IS NOT NULL
+    
+    UNION ALL
+    SELECT 
+        Metric, 'Tenure Group 6' AS Tenure_Group, Tenure_Group_6 AS Value_Text, 6 AS Group_Order
+    FROM product_analysis_by_tenure WHERE Tenure_Group_6 IS NOT NULL
+)
+SELECT
+    Metric,
+    Tenure_Group,
+    CASE 
+        WHEN Value_Text ~ '^[0-9\.]+$' THEN Value_Text::numeric 
+        ELSE NULL 
+    END AS Value,
+    -- Add derived columns for better filtering and visualization
+    CASE 
+        WHEN Metric LIKE 'Global Average%' THEN 'Total Spending'
+        WHEN Metric LIKE 'Top%' THEN 'Product Spending'
+        WHEN Metric LIKE 'Average Purchase%' THEN 'Purchase Behavior'
+        WHEN Metric LIKE 'Average Complain%' THEN 'Customer Satisfaction'
+        WHEN Metric LIKE 'Average Response%' THEN 'Customer Engagement'
+        ELSE 'Other'
+    END AS Metric_Category,
+    -- Extract product name for product-specific analysis
+    CASE 
+        WHEN Metric LIKE 'Top%: %' THEN 
+            SUBSTRING(Metric FROM POSITION(': ' IN Metric) + 2)
+        ELSE NULL
+    END AS Product_Name,
+    -- Extract ranking for sorting
+    CASE 
+        WHEN Metric LIKE 'Top Product:%' THEN 1
+        WHEN Metric LIKE 'Top 2 Product:%' THEN 2
+        WHEN Metric LIKE 'Top 3 Product:%' THEN 3
+        WHEN Metric LIKE 'Top 4 Product:%' THEN 4
+        WHEN Metric LIKE 'Top 5 Product:%' THEN 5
+        ELSE NULL
+    END AS Product_Rank,
+    -- Add numeric ordering for tenure groups
+    Group_Order AS Tenure_Group_Order
+FROM tenure_data;
+
 -- Sample queries to view the results
-SELECT * FROM product_analysis_by_country;
 SELECT * FROM product_analysis_by_age_group;
+SELECT * FROM product_analysis_by_age_group_tableau;
 SELECT * FROM product_analysis_by_family_size;
+SELECT * FROM product_analysis_by_family_size_tableau;
 SELECT * FROM product_analysis_by_income;
-SELECT * FROM product_analysis_by_education;
+SELECT * FROM product_analysis_by_income_tableau;
 SELECT * FROM product_analysis_by_tenure;
+SELECT * FROM product_analysis_by_tenure_tableau;

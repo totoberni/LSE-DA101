@@ -51,7 +51,4 @@ SET Income_Numeric = REPLACE(REPLACE(Income, '$', ''), ',', '')::NUMERIC;
 ALTER TABLE customer_data_combined ADD PRIMARY KEY (ID);
 
 -- Verify the new table
-SELECT COUNT(*) FROM customer_data_combined;
-
--- Sample verification query
 SELECT * FROM customer_data_combined LIMIT 15;
