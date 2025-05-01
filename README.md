@@ -34,11 +34,9 @@ This PostgreSQL project processes and analyzes marketing and ad conversion data 
 └── README.md                    # This file
 ```
 
-## Database Schema and ERD Diagrams
+## Initial Data Tables
 
-### Initial Data Tables (tableMaking.sql)
-
-The initial schema creates two tables to match the structure of the CSV files:
+The project starts with two data source tables and creates a combined analysis table:
 
 ```
 ┌───────────────────┐           ┌───────────────────┐
@@ -51,199 +49,217 @@ The initial schema creates two tables to match the structure of the CSV files:
 │ Income            │           │ Facebook_ad       │
 │ Kidhome           │           │ Brochure_ad       │
 │ Teenhome          │           │                   │
-│ Dt_Customer       │           │                   │
-│ Recency           │           │                   │
-│ AmtLiq            │           │                   │
-│ AmtVege           │           │                   │
-│ AmtNonVeg         │           │                   │
-│ AmtPes            │           │                   │
-│ AmtChocolates     │           │                   │
-│ AmtComm           │           │                   │
-│ NumDeals          │           │                   │
-│ NumWebBuy         │           │                   │
-│ NumWalkinPur      │           │                   │
-│ NumVisits         │           │                   │
-│ Response          │           │                   │
-│ Complain          │           │                   │
-│ Country           │           │                   │
-│ Count_success     │           │                   │
+│ ... (and more)    │           │                   │
 └───────────────────┘           └───────────────────┘
+              \                  /
+               \                /
+                \              /
+                 \            /
+                  ▼          ▼
+           ┌───────────────────────────┐
+           │   customer_data_combined  │
+           ├───────────────────────────┤
+           │ ID (PK)                   │
+           │ Year_Birth                │
+           │ Education                 │
+           │ ... (many columns)        │
+           │ Customer_Date (derived)   │
+           │ Income_Numeric (derived)  │
+           └───────────────────────────┘
 ```
 
-### Combined Data (tableDataCleaning.sql)
+## Tableau-Ready Views
 
-The script creates a single table joining the data and adding derived columns:
+The following views are specifically designed for visualization in Tableau:
 
-```
-┌───────────────────────────┐
-│   customer_data_combined  │
-├───────────────────────────┤
-│ ID (PK)                   │
-│ Year_Birth                │
-│ Education                 │
-│ Marital_Status            │
-│ Income                    │
-│ Kidhome                   │
-│ Teenhome                  │
-│ Dt_Customer               │
-│ Recency                   │
-│ AmtLiq                    │
-│ AmtVege                   │
-│ AmtNonVeg                 │
-│ AmtPes                    │
-│ AmtChocolates             │
-│ AmtComm                   │
-│ NumDeals                  │
-│ NumWebBuy                 │
-│ NumWalkinPur              │
-│ NumVisits                 │
-│ Response                  │
-│ Complain                  │
-│ Country                   │
-│ Count_success             │
-│ Customer_Date (derived)   │
-│ Income_Numeric (derived)  │
-│ Bulkmail_ad               │
-│ Twitter_ad                │
-│ Instagram_ad              │
-│ Facebook_ad               │
-│ Brochure_ad               │
-└───────────────────────────┘
-```
-
-### Customer Demographics Analysis (customerDemographics.sql)
-
-Creates a view-based analysis of customer demographics:
+### 1. Customer Demographics (customerDemographics.sql)
 
 ```
-┌───────────────────────┐
-│  demogs_by_country    │
-├───────────────────────┤
-│ Metric                │
-│ AUS                   │
-│ CA                    │
-│ GER                   │
-│ IND                   │
-│ ME                    │
-│ SA                    │
-│ SP                    │
-│ US                    │
-└───────────────────────┘
-   ▲
-   │
-   │ derives from
-   │
-┌──┴────────────────────┐
-│ customer_data_combined│
-└───────────────────────┘
+┌─────────────────────────────┐
+│ demogs_by_country_tableau   │
+├─────────────────────────────┤
+│ metric                      │
+│ region                      │
+│ region_full_name            │
+│ value                       │
+└─────────────────────────────┘
 ```
 
-### Ad Channel Analysis (adChannelAnalysis.sql)
+This long-format view transforms the wide-format country data into a structure optimized for Tableau visualizations. It includes expanded country names and formatted metric values.
 
-Creates multiple analysis views for marketing channel effectiveness:
+### 2. Ad Channel Analysis (adChannelAnalysis.sql)
 
-```
-                  ┌─────────────────────────────┐
-                  │ customer_data_combined      │
-                  └─────────────┬───────────────┘
-                                │
-                 ┌──────────────┼──────────────┐
-                 │              │              │
-    ┌────────────▼─────┐ ┌──────▼────────┐ ┌──▼───────────────────┐
-    │ad_channel_       │ │ad_channel_    │ │ad_channel_           │
-    │conversion_analysis│ │product_affinity│ │revenue_analysis     │
-    └──────────────────┘ └───────────────┘ └─────────────────────┘
-                                │
-                        ┌───────▼────────┐
-                        │ad_channel_     │
-                        │behavior_analysis│
-                        └────────────────┘
-```
-
-### Product Demographics Analysis (productDemographics.sql)
-
-Creates multiple views for product preference analysis across demographic segments:
+Several Tableau-optimized views are available:
 
 ```
-                       ┌───────────────────────┐
-                       │ customer_data_combined│
-                       └───────────┬───────────┘
-                                   │
-       ┌────────────────┬──────────┼─────────────┬─────────────────┐
-       │                │          │             │                 │
-┌──────▼───────┐ ┌──────▼─────┐ ┌──▼───────┐ ┌───▼─────────┐ ┌────▼───────┐
-│product_      │ │product_    │ │product_  │ │product_     │ │product_    │
-│analysis_by_  │ │analysis_by_│ │analysis_ │ │analysis_by_ │ │analysis_by_│
-│country       │ │age_group   │ │by_family_│ │income       │ │education   │
-└──────────────┘ └────────────┘ │size      │ └─────────────┘ └────────────┘
-                                └──────────┘
-                                      │
-                                ┌─────▼────────┐
-                                │product_      │
-                                │analysis_by_  │
-                                │tenure        │
-                                └──────────────┘
+┌────────────────────────────────┐
+│ ad_channel_conversion_tableau  │
+├────────────────────────────────┤
+│ channel                        │
+│ global_conversion_rate         │
+│ channel_share                  │
+│ all_channels_global            │
+│ all_channels_share             │
+└────────────────────────────────┘
+
+┌────────────────────────────────┐
+│ ad_channel_product_affinity_   │
+│ tableau                        │
+├────────────────────────────────┤
+│ channel                        │
+│ product_category               │
+│ average_spending               │
+│ is_top_three_product           │
+│ product_rank                   │
+│ top_three_products             │
+│ global_average                 │
+│ pct_diff_from_global_avg       │
+└────────────────────────────────┘
+
+┌────────────────────────────────┐
+│ ad_channel_revenue_analysis    │
+├────────────────────────────────┤
+│ channel                        │
+│ channel_total_revenue          │
+│ channel_avg_revenue_per_       │
+│ customer                       │
+│ channel_customer_count         │
+│ pct_of_total_revenue           │
+│ pct_of_avg_customer_revenue    │
+└────────────────────────────────┘
+
+┌────────────────────────────────┐
+│ ad_channel_behavior_tableau    │
+├────────────────────────────────┤
+│ channel                        │
+│ metric                         │
+│ avg_value                      │
+│ rel_value                      │
+│ customer_count                 │
+└────────────────────────────────┘
 ```
 
-## Using the Analysis Views
+The `ad_channel_revenue_analysis` view is directly usable in Tableau without further pivoting.
+
+### 3. Product Demographics Analysis (productDemographics.sql)
+
+```
+┌─────────────────────────────────┐
+│ product_analysis_by_age_group_  │
+│ tableau                         │
+├─────────────────────────────────┤
+│ metric                          │
+│ age_group                       │
+│ value                           │
+│ metric_category                 │
+│ product_name                    │
+│ product_rank                    │
+│ age_group_order                 │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ product_analysis_by_family_size_│
+│ tableau                         │
+├─────────────────────────────────┤
+│ metric                          │
+│ family_size                     │
+│ value                           │
+│ metric_category                 │
+│ product_name                    │
+│ product_rank                    │
+│ family_size_order               │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ product_analysis_by_income_     │
+│ tableau                         │
+├─────────────────────────────────┤
+│ metric                          │
+│ income_bracket                  │
+│ value                           │
+│ metric_category                 │
+│ product_name                    │
+│ product_rank                    │
+│ income_bracket_order            │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ product_analysis_by_tenure_     │
+│ tableau                         │
+├─────────────────────────────────┤
+│ metric                          │
+│ tenure_group                    │
+│ value                           │
+│ metric_category                 │
+│ product_name                    │
+│ product_rank                    │
+│ tenure_group_order              │
+└─────────────────────────────────┘
+```
+
+Each of these views is in a long format optimized for Tableau visualizations, with additional derived columns for improved filtering and organization.
+
+## Using the Tableau-Ready Views
 
 ### Customer Demographics View
 
 ```sql
--- View all metrics for all countries
-SELECT * FROM demogs_by_country;
+-- Get all demographic data in Tableau-friendly format
+SELECT * FROM demogs_by_country_tableau;
 
--- View specific metrics for all countries
-SELECT * FROM demogs_by_country 
-WHERE Metric IN ('Avg_Age', 'Avg_Income', 'Response_Percentage');
+-- Filter for specific metrics
+SELECT * FROM demogs_by_country_tableau 
+WHERE metric IN ('Avg_Age', 'Avg_Income', 'Response_Percentage');
 
--- Compare specific countries
-SELECT * FROM demogs_by_country 
-WHERE Metric = 'Top_Three_Channels' 
-  AND (US IS NOT NULL OR SP IS NOT NULL);
+-- Compare marketing channel data by region
+SELECT * FROM demogs_by_country_tableau 
+WHERE metric LIKE 'Channel_%';
 ```
 
 ### Ad Channel Analysis Views
 
 ```sql
 -- View conversion rates across all channels
-SELECT * FROM ad_channel_conversion_analysis;
+SELECT * FROM ad_channel_conversion_tableau;
 
--- Compare product preferences by channel
-SELECT Channel, Top_Three_Products FROM ad_channel_product_affinity;
+-- Compare product preferences and spending by channel
+SELECT * FROM ad_channel_product_affinity_tableau
+ORDER BY channel, average_spending DESC;
 
 -- Analyze revenue contribution by channel
-SELECT Channel, Channel_Total_Revenue, Pct_of_Total_Revenue 
+SELECT channel, channel_total_revenue, pct_of_total_revenue 
 FROM ad_channel_revenue_analysis
-ORDER BY Pct_of_Total_Revenue DESC;
+WHERE channel NOT IN ('All Customers', 'All Ad Channels', 'No Channel')
+ORDER BY pct_of_total_revenue DESC;
 
--- Examine engagement metrics by channel
-SELECT Channel, Avg_Purchase_Frequency, Avg_Response, Avg_NumVisits
-FROM ad_channel_behavior_analysis
-WHERE Channel NOT IN ('All Customers', 'All Ad Channels', 'No Channel')
-ORDER BY Avg_Response DESC;
+-- Examine behavior metrics by channel and metric type
+SELECT * FROM ad_channel_behavior_analysis_tableau
+WHERE metric = 'Campaign Response'
+ORDER BY avg_value DESC;
 ```
 
 ### Product Demographics Analysis Views
 
 ```sql
--- View product preferences by country
-SELECT * FROM product_analysis_by_country;
-
 -- View product preferences by age group
-SELECT * FROM product_analysis_by_age_group;
+SELECT * FROM product_analysis_by_age_group_tableau
+WHERE metric_category = 'Product Spending'
+ORDER BY age_group_order, product_rank;
 
--- View product preferences by family size
-SELECT * FROM product_analysis_by_family_size;
+-- View spending patterns by family size
+SELECT * FROM product_analysis_by_family_size_tableau
+WHERE product_name = 'Alcohol'
+ORDER BY family_size_order;
 
 -- View product preferences by income bracket
-SELECT * FROM product_analysis_by_income;
+SELECT * FROM product_analysis_by_income_tableau
+WHERE metric_category = 'Total Spending'
+ORDER BY income_bracket_order;
 
--- View product preferences by education level
-SELECT * FROM product_analysis_by_education;
-
--- View product preferences by customer tenure
-SELECT * FROM product_analysis_by_tenure;
+-- View response rates by customer tenure
+SELECT * FROM product_analysis_by_tenure_tableau
+WHERE metric_category = 'Customer Engagement'
+ORDER BY tenure_group_order;
 ```
 
 ## Key Features
@@ -252,6 +268,7 @@ SELECT * FROM product_analysis_by_tenure;
    - Date standardization
    - Income normalization
    - Derived metrics calculation
+   - Long-format views optimized for Tableau
 
 2. **Demographic Analysis**
    - Age distribution by country
