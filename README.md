@@ -1,5 +1,14 @@
 # 2Market Data Analysis Project
 
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Project Structure](#project-structure)
+- [Quick Start Guide](#quick-start-guide)
+- [Database Setup Process](#database-setup-process)
+- [Data Tables Overview](#data-tables-overview)
+- [Tableau-Ready Views](#tableau-ready-views)
+- [Key Features](#key-features)
+
 ## Project Overview
 
 This PostgreSQL project processes and analyzes marketing and ad conversion data for 2Market. The analysis helps the company understand:
@@ -7,6 +16,68 @@ This PostgreSQL project processes and analyzes marketing and ad conversion data 
 1. The demographics of their customers
 2. Which advertising channels are most effective
 3. Which products sell best and how sales vary based on demographics
+
+## Project Structure
+
+```
+LSE-DA101/                          # Project root directory
+│
+├── data/                           # Raw data files
+│   ├── ad_data.csv                 # Marketing channel conversion data (35KB)
+│   ├── marketing_data.csv          # Customer demographic and purchase data (199KB)
+│   └── metadata_2Market.txt        # Data dictionary and field descriptions (3.1KB)
+│
+├── sql/                            # SQL scripts for data processing and analysis
+│   ├── tableMaking.sql             # Creates initial database tables
+│   ├── tableDataCleaning.sql       # Joins and cleans the data
+│   ├── customerDemographics.sql    # Customer demographic analysis
+│   ├── adChannelAnalysis.sql       # Ad channel effectiveness analysis
+│   └── productDemographics.sql     # Product preferences by demographic
+│
+├── tableau/                        # Tableau visualization files
+│   └── M2MBook.twb                 # Main Tableau workbook with all visualizations
+│
+├── reports/                        # Project documentation and reports
+│   ├── main_report.tex             # LaTeX source for the main report
+│   ├── LSE-DA101 Report.pdf        # Final compiled report (PDF)
+│   └── README.pdf                  # PDF version of this README
+│
+├── video/                          # Video presentation
+│   └── 2Market Business Analysis.mp4  # Video walkthrough of the analysis (37MB)
+│
+└── README.md                       # This file - project documentation
+```
+
+### Directory Descriptions
+
+- **`data/`**: Contains all raw data files used in the analysis
+  - CSV files with customer and advertising data
+  - Metadata file explaining data fields and their meanings
+
+- **`sql/`**: Contains all SQL scripts in execution order
+  - Scripts are numbered implicitly by their logical execution sequence
+  - Each script builds upon the previous ones
+
+- **`tableau/`**: Contains the Tableau workbook
+  - Connects to the PostgreSQL views created by the SQL scripts
+  - Contains all visualizations referenced in the report
+
+- **`reports/`**: Contains all project documentation
+  - LaTeX source file for academic formatting
+  - Final PDF report with complete analysis
+  - PDF version of this README for offline reference
+
+- **`video/`**: Contains the video presentation
+  - MP4 format video explaining the key findings
+  - Demonstrates the Tableau dashboard in action
+
+## Quick Start Guide
+
+1. **Review the data**: Check `data/metadata_2Market.txt` for field descriptions
+2. **Set up the database**: Follow the [Database Setup Process](#database-setup-process)
+3. **View the analysis**: Open `reports/LSE-DA101 Report.pdf`
+4. **Explore visualizations**: Open `tableau/M2MBook.twb` in Tableau
+5. **Watch the presentation**: View `video/2Market Business Analysis.mp4`
 
 ## Database Setup Process
 
@@ -19,22 +90,7 @@ This PostgreSQL project processes and analyzes marketing and ad conversion data 
 6. Run productDemographics.sql to analyze product preferences by demographic
 ```
 
-## Project Structure
-
-```
-├── sql/
-│   ├── tableMaking.sql          # Creates initial database tables
-│   ├── tableDataCleaning.sql    # Joins and cleans the data
-│   ├── customerDemographics.sql # Customer demographic analysis
-│   ├── adChannelAnalysis.sql    # Ad channel effectiveness analysis
-│   └── productDemographics.sql  # Product preferences by demographic
-├── data/
-│   ├── marketing_data.csv       # Customer demographic and purchase data
-│   └── ad_data.csv              # Marketing channel conversion data
-└── README.md                    # This file
-```
-
-## Initial Data Tables
+## Data Tables Overview
 
 The project starts with two data source tables and creates a combined analysis table:
 
